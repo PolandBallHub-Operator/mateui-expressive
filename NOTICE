@@ -1,0 +1,62 @@
+Matecha 🧉 Expressive Web
+Copyright 2026 [YOUR NAME OR ORGANIZATION]
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+=====================================================================
+RELATIONSHIP TO MATERIAL WEB COMPONENTS (NOT A FORK)
+=====================================================================
+
+Matecha is an independent, from-scratch implementation that is API-compatible
+with Material Web Components (@material/web), version 2.5.0:
+
+    Project:    Material Web Components
+    Source:     https://github.com/material-components/material-web
+    Package:    @material/web@2.5.0
+    Copyright:  Copyright 2023 Google LLC
+    License:    Apache License, Version 2.0
+
+  * Matecha is NOT a fork. It contains no source code from @material/web and
+    has no runtime dependency on Lit, tslib or any @material/* package.
+  * Only the public interface is shared for drop-in compatibility: element
+    (tag) names, attribute and property names, method names, event names,
+    slot and part names, and --md-sys-* / --md-<component>-* design-token
+    names. These follow the design of Material Web Components 2.5.0.
+  * Rendering, styling, motion and behaviour are implemented independently,
+    following the Material 3 Expressive design from the MateUI reference.
+  * Additional components not provided by @material/web are listed in
+    SPECIFICATION.md, section 3.2.
+
+This project is NOT an official Google product and is not affiliated with,
+endorsed by, or sponsored by Google LLC.
+
+"Material Design", "Material Web" and "Material Symbols" are trademarks or
+names of Google LLC and are used only to describe compatibility. No
+trademark license is granted by this project.
+
+=====================================================================
+THIRD-PARTY RESOURCES (loaded at runtime from Google Fonts unless
+window.MATECHA_NO_FONTS is set; not bundled in this repository)
+=====================================================================
+
+  * Material Symbols (Rounded) - Copyright Google LLC - Apache License 2.0
+    https://github.com/google/material-design-icons
+
+  * Inter - Copyright The Inter Project Authors - SIL Open Font License 1.1
+    https://github.com/rsms/inter
+
+=====================================================================
+SOURCE FILE HEADER (recommended for each distributed file)
+=====================================================================
+
+/**
+ * @license
+ * Matecha 3.0.0 - Material 3 Expressive web components
+ * Copyright 2026 [YOUR NAME OR ORGANIZATION]
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * From-scratch, dependency-free implementation that is API-compatible with
+ * Material Web Components v2.5.0 (Copyright 2023 Google LLC,
+ * SPDX-License-Identifier: Apache-2.0). Not a fork; contains no MWC source.
+ * See NOTICE.
+ */
