@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matecha Expressive Web — Component Catalog</title>
+<style>
+:root{--bg:var(--md-sys-color-surface,#fdf8fd);--fg:var(--md-sys-color-on-surface,#1d1b20);--fgv:var(--md-sys-color-on-surface-variant,#49454f);--ol:var(--md-sys-color-outline-variant,#cac4d0);--sc:var(--md-sys-color-surface-container,#f3edf7);--sch:var(--md-sys-color-surface-container-high,#ece6f0);--pr:var(--md-sys-color-primary,#6750a4);--font:var(--md-ref-typeface-plain,Inter,system-ui,sans-serif)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);scroll-behavior:smooth}
+body{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+nav.rail{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 12px;border-right:1px solid var(--ol);background:var(--sc)}
+nav.rail h1{font-size:18px;font-weight:600;margin:4px 12px 2px}
+nav.rail p{font-size:12px;color:var(--fgv);margin:0 12px 14px}
+nav.rail a{display:block;padding:9px 14px;margin:2px 0;border-radius:20px;color:var(--fg);text-decoration:none;font-size:14px;transition:border-radius .32s cubic-bezier(.2,0,0,1),background .2s}
+nav.rail a:hover{background:var(--sch)}
+nav.rail a:active{border-radius:10px}
+nav.rail a.on{background:var(--md-sys-color-secondary-container,#e8def8);font-weight:600}
+nav.rail small{float:right;color:var(--fgv)}
+main{padding:28px clamp(16px,4vw,48px) 96px;min-width:0}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:28px;position:sticky;top:0;z-index:5;padding:12px 0;background:var(--bg)}
+.bar md-outlined-text-field{flex:1;min-width:200px}
+.bar label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fgv)}
+.bar input[type=color]{width:36px;height:36px;border:0;padding:0;background:none;border-radius:50%;cursor:pointer}
+.bar select{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--ol);background:var(--bg);color:var(--fg)}
+section{margin-bottom:56px;scroll-margin-top:84px}
+section>h2{font-size:30px;font-weight:600;margin:0 0 4px}
+section>p{margin:0 0 20px;color:var(--fgv);font-size:14px}
+.demo{border:1px solid var(--ol);border-radius:24px;margin-bottom:16px;overflow:hidden}
+.demo>header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:var(--sc);font-size:14px;font-weight:500}
+.demo>header code{font-size:12px;color:var(--fgv);font-weight:400}
+.stage{padding:24px 20px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;position:relative}
+.stage.col{flex-direction:column;align-items:stretch}
+.stage.tall{min-height:260px;align-items:flex-start}
+details{border-top:1px solid var(--ol)}
+summary{cursor:pointer;padding:10px 20px;font-size:13px;color:var(--fgv)}
+pre{margin:0;padding:0 20px 16px;overflow:auto;font-size:12px;line-height:1.55;color:var(--fg);font-family:ui-monospace,Menlo,Consolas,monospace;max-height:320px}
+.sw{width:100%}
+@media(max-width:820px){body{grid-template-columns:1fr}nav.rail{position:static;height:auto;display:flex;overflow-x:auto;white-space:nowrap;padding:10px}nav.rail h1,nav.rail p{display:none}nav.rail a{flex:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script type="module" src="https://cdn.jsdelivr.net/gh/PolandBallHub-Operator/mateui-expressive@main/matecha-3.5.0-all.js"></script>
+</head>
+<body>
+<nav class="rail" id="rail"><h1>Matecha 🧉 Catalog</h1><p>v3.5.0 · Expressive Web</p></nav>
+<main>
+  <div class="bar">
+    <md-outlined-text-field id="q" label="コンポーネントを検索 (例: slider, md-fab)"></md-outlined-text-field>
+    <label>シード色 <input type="color" id="seed" value="#6750a4"></label>
+    <label>バリアント <select id="variant"><option>tonal</option><option>expressive</option><option>vibrant</option></select></label>
+    <md-filled-tonal-button id="dark">ダーク切替</md-filled-tonal-button>
+  </div>
+  <div id="app"></div>
+  <p id="status" style="color:var(--fgv);font-size:13px"></p>
+</main>
+
+<script>
+const D=(t,h,o={})=>({t,h,...o});
+const S=[
+{id:'basics',n:'Foundations',d:'ripple / focus-ring / elevation / icon / divider',c:[
+ D('md-icon','<md-icon>favorite</md-icon><md-icon>settings</md-icon><md-icon>rocket_launch</md-icon><md-icon>palette</md-icon>'),
+ D('md-divider','<div style="width:100%"><p>Above</p><md-divider></md-divider><p>Below</p></div>',{cls:'col'}),
+ D('md-ripple / md-elevation','<div style="position:relative;width:160px;height:96px;border-radius:16px;background:var(--md-sys-color-surface-container-low,#f7f2fa);display:grid;place-items:center;--md-elevation-level:3"><md-elevation></md-elevation><md-ripple></md-ripple>押してみる</div>'),
+ D('md-focus-ring','<button style="position:relative;padding:10px 18px;border-radius:12px;border:1px solid var(--ol);background:none;color:var(--fg);font:inherit">Tab で到達<md-focus-ring></md-focus-ring></button>')]},
+{id:'buttons',n:'Buttons',d:'標準・アイコン・FAB・ブロック・分割',c:[
+ D('Common buttons','<md-elevated-button>Elevated</md-elevated-button><md-filled-button>Filled</md-filled-button><md-filled-tonal-button>Tonal</md-filled-tonal-button><md-outlined-button>Outlined</md-outlined-button><md-text-button>Text</md-text-button>'),
+ D('With icon / disabled','<md-filled-button><md-icon slot="icon">add</md-icon>Add</md-filled-button><md-outlined-button disabled>Disabled</md-outlined-button>'),
+ D('shape="square"','<md-filled-button shape="square">Square</md-filled-button><md-filled-tonal-button shape="square">Square</md-filled-tonal-button><md-outlined-button shape="square">Square</md-outlined-button>'),
+ D('block','<md-filled-button block style="width:100%">Full width</md-filled-button><md-outlined-button block style="width:100%">Full width</md-outlined-button>',{cls:'col'}),
+ D('Icon buttons','<md-icon-button><md-icon>favorite</md-icon></md-icon-button><md-filled-icon-button><md-icon>favorite</md-icon></md-filled-icon-button><md-filled-tonal-icon-button><md-icon>favorite</md-icon></md-filled-tonal-icon-button><md-outlined-icon-button><md-icon>favorite</md-icon></md-outlined-icon-button><md-icon-button toggle><md-icon>star</md-icon><md-icon slot="selected">star</md-icon></md-icon-button>'),
+ D('FAB / branded FAB','<md-fab aria-label="Edit"><md-icon slot="icon">edit</md-icon></md-fab><md-fab size="small" aria-label="Edit"><md-icon slot="icon">edit</md-icon></md-fab><md-fab label="Compose"><md-icon slot="icon">edit</md-icon></md-fab><md-branded-fab aria-label="Brand"><md-icon slot="icon">palette</md-icon></md-branded-fab>'),
+ D('md-fab-menu','<md-fab-menu><md-fab-menu-item label="Photo"><md-icon slot="icon">image</md-icon></md-fab-menu-item><md-fab-menu-item label="Note"><md-icon slot="icon">note</md-icon></md-fab-menu-item></md-fab-menu>',{cls:'tall'}),
+ D('md-connected-button-group','<md-connected-button-group><md-connected-button selected>Day</md-connected-button><md-connected-button>Week</md-connected-button><md-connected-button>Month</md-connected-button></md-connected-button-group>'),
+ D('md-split-button','<md-split-button><md-menu slot="menu"><md-menu-item><div slot="headline">Save as draft</div></md-menu-item><md-menu-item><div slot="headline">Schedule</div></md-menu-item></md-menu>Publish</md-split-button>',{cls:'tall'}),
+ D('md-segmented-button-set','<md-segmented-button-set><md-segmented-button selected label="Map"></md-segmented-button><md-segmented-button label="List"></md-segmented-button><md-segmented-button label="Grid"></md-segmented-button></md-segmented-button-set>')]},
+{id:'selection',n:'Selection controls',d:'checkbox / radio / switch / switch-bar / slider',c:[
+ D('md-checkbox','<label><md-checkbox checked></md-checkbox> Checked</label><label><md-checkbox></md-checkbox> Unchecked</label><label><md-checkbox indeterminate></md-checkbox> Indeterminate</label><label><md-checkbox disabled></md-checkbox> Disabled</label>'),
+ D('md-radio','<label><md-radio name="r" value="a" checked></md-radio> A</label><label><md-radio name="r" value="b"></md-radio> B</label><label><md-radio name="r" value="c"></md-radio> C</label>'),
+ D('md-switch','<md-switch selected></md-switch><md-switch></md-switch><md-switch icons selected></md-switch><md-switch disabled></md-switch>'),
+ D('md-switch-bar (3.5.0)','<md-switch-bar label="Use Live Caption" selected style="width:100%"><span slot="supporting-text">Captions appear automatically</span></md-switch-bar><md-switch-bar label="Dark mode" style="width:100%"></md-switch-bar>',{cls:'col'}),
+ D('md-slider','<md-slider labeled min="0" max="100" value="40" class="sw"></md-slider><md-slider labeled range value-start="20" value-end="70" class="sw"></md-slider><md-slider ticks step="10" value="50" class="sw"></md-slider>',{cls:'col'}),
+ D('md-slider size (3.5.0)','<md-slider size="xs" value="40" class="sw"></md-slider><md-slider size="s" value="50" class="sw"></md-slider><md-slider size="m" value="60" class="sw"></md-slider><md-slider size="l" value="70" class="sw"><md-icon slot="icon">volume_up</md-icon></md-slider><md-slider size="xl" value="80" class="sw"><md-icon slot="icon" >brightness_6</md-icon></md-slider>',{cls:'col'}),
+ D('md-slider vertical / icon-position','<md-slider vertical size="m" value="60"><md-icon slot="icon">volume_up</md-icon></md-slider><md-slider size="l" icon-position="start" value="30" style="width:260px"><md-icon slot="icon">light_mode</md-icon></md-slider>')]},
+{id:'progress',n:'Progress',d:'linear / circular / loading-indicator / pull-to-refresh',c:[
+ D('md-linear-progress','<md-linear-progress value="0.6" class="sw"></md-linear-progress><md-linear-progress indeterminate class="sw"></md-linear-progress><md-linear-progress wavy thick value="0.5" class="sw"></md-linear-progress>',{cls:'col'}),
+ D('md-circular-progress','<md-circular-progress value="0.6"></md-circular-progress><md-circular-progress indeterminate></md-circular-progress><md-circular-progress wavy thick value="0.7"></md-circular-progress>'),
+ D('md-loading-indicator','<md-loading-indicator></md-loading-indicator>'),
+ D('md-pull-to-refresh (3.5.0)','<md-pull-to-refresh style="height:240px;width:100%" onrefresh="setTimeout(()=>this.done(),1500)"><md-list flat><md-list-item><div slot="headline">マウスで下にドラッグ</div></md-list-item><md-list-item><div slot="headline">Item 2</div></md-list-item><md-list-item><div slot="headline">Item 3</div></md-list-item></md-list></md-pull-to-refresh><md-pull-to-refresh variant="classic" style="height:240px;width:100%" onrefresh="setTimeout(()=>this.done(),1500)"><md-list flat><md-list-item><div slot="headline">classic variant</div></md-list-item><md-list-item><div slot="headline">Item 2</div></md-list-item></md-list></md-pull-to-refresh>',{cls:'col'})]},
+{id:'chips',n:'Chips',d:'assist / filter / input / suggestion',c:[
+ D('md-chip-set','<md-chip-set><md-assist-chip label="Assist"><md-icon slot="icon">event</md-icon></md-assist-chip><md-filter-chip label="Filter" selected></md-filter-chip><md-filter-chip label="Filter"></md-filter-chip><md-input-chip label="Input" removable></md-input-chip><md-suggestion-chip label="Suggestion"></md-suggestion-chip></md-chip-set>')]},
+{id:'nav',n:'Navigation',d:'tabs / navigation-bar / drawer / top-app-bar',c:[
+ D('md-tabs (primary)','<md-tabs style="width:100%"><md-primary-tab>Video</md-primary-tab><md-primary-tab>Photos</md-primary-tab><md-primary-tab>Music</md-primary-tab></md-tabs>',{cls:'col'}),
+ D('md-tabs (secondary)','<md-tabs style="width:100%"><md-secondary-tab>Overview</md-secondary-tab><md-secondary-tab>Specs</md-secondary-tab><md-secondary-tab>Reviews</md-secondary-tab></md-tabs>',{cls:'col'}),
+ D('md-navigation-bar','<md-navigation-bar style="width:100%"><md-navigation-tab label="Home" active><md-icon slot="inactive-icon">home</md-icon><md-icon slot="active-icon">home</md-icon></md-navigation-tab><md-navigation-tab label="Search"><md-icon slot="inactive-icon">search</md-icon><md-icon slot="active-icon">search</md-icon></md-navigation-tab><md-navigation-tab label="Library"><md-icon slot="inactive-icon">library_music</md-icon><md-icon slot="active-icon">library_music</md-icon></md-navigation-tab></md-navigation-bar>',{cls:'col'}),
+ D('md-navigation-drawer','<md-filled-tonal-button onclick="document.getElementById(\'drw\').open=!document.getElementById(\'drw\').open">Drawer を開く</md-filled-tonal-button><md-navigation-drawer id="drw"><md-navigation-drawer-header>Matecha</md-navigation-drawer-header><md-navigation-drawer-item label="Inbox" active><md-icon slot="icon">inbox</md-icon></md-navigation-drawer-item><md-navigation-drawer-divider></md-navigation-drawer-divider><md-navigation-drawer-item label="Sent"><md-icon slot="icon">send</md-icon></md-navigation-drawer-item></md-navigation-drawer>'),
+ D('md-top-app-bar','<md-top-app-bar style="width:100%" headline="Small"><md-icon-button slot="leading"><md-icon>menu</md-icon></md-icon-button></md-top-app-bar><md-top-app-bar style="width:100%" variant="center-aligned" headline="Center"></md-top-app-bar><md-top-app-bar style="width:100%" variant="medium" headline="Medium"></md-top-app-bar>',{cls:'col'}),
+ D('md-top-app-bar back / circle-leading (3.5.0)','<md-top-app-bar style="width:100%" headline="Settings" back></md-top-app-bar><md-top-app-bar style="width:100%" headline="Profile" circle-leading><md-icon-button slot="leading"><md-icon>menu</md-icon></md-icon-button></md-top-app-bar>',{cls:'col'}),
+ D('md-toolbar','<md-toolbar><md-icon-button><md-icon>undo</md-icon></md-icon-button><md-icon-button><md-icon>redo</md-icon></md-icon-button><md-icon-button><md-icon>format_bold</md-icon></md-icon-button></md-toolbar>')]},
+{id:'lists',n:'Lists & cards',d:'list / card / badge / avatar / swipe',c:[
+ D('md-list (grouped)','<md-list style="width:100%"><md-list-item><md-icon slot="start">person</md-icon><div slot="headline">Contacts</div><div slot="supporting-text">12 people</div></md-list-item><md-list-item><md-icon slot="start">folder</md-icon><div slot="headline">Files</div><div slot="supporting-text">340 items</div></md-list-item><md-list-item type="button"><md-icon slot="start">settings</md-icon><div slot="headline">Settings</div><md-icon slot="end">chevron_right</md-icon></md-list-item></md-list>',{cls:'col'}),
+ D('md-list flat','<md-list flat style="width:100%"><md-list-item><div slot="headline">Flat A</div></md-list-item><md-divider></md-divider><md-list-item><div slot="headline">Flat B</div></md-list-item></md-list>',{cls:'col'}),
+ D('md-card','<md-card variant="filled" style="padding:16px;width:180px">Filled</md-card><md-card variant="elevated" style="padding:16px;width:180px">Elevated</md-card><md-card variant="outlined" style="padding:16px;width:180px">Outlined</md-card><md-card variant="tonal" interactive style="padding:16px;width:180px">Tonal · interactive</md-card>'),
+ D('md-badge / md-avatar','<md-badge value="3"></md-badge><md-badge></md-badge><md-avatar>AB</md-avatar><md-avatar tone="tertiary">CD</md-avatar><md-avatar tone="secondary"><md-icon>person</md-icon></md-avatar>'),
+ D('md-swipe-item','<md-swipe-item style="width:100%"><div style="padding:18px">← 左にスワイプ</div><md-swipe-action slot="end" label="Delete"><md-icon slot="icon">delete</md-icon></md-swipe-action><md-swipe-action slot="end" label="Archive"><md-icon slot="icon">archive</md-icon></md-swipe-action></md-swipe-item>',{cls:'col'})]},
+{id:'fields',n:'Text fields & select',d:'field / text-field / select / search',c:[
+ D('md-filled-text-field','<md-filled-text-field label="Name" value="Matecha"></md-filled-text-field><md-filled-text-field label="Email" type="email" error error-text="Invalid" value="x"></md-filled-text-field><md-filled-text-field label="Bio" type="textarea" rows="3"></md-filled-text-field>'),
+ D('md-outlined-text-field','<md-outlined-text-field label="Name" value="Matecha"><md-icon slot="leading-icon">person</md-icon></md-outlined-text-field><md-outlined-text-field label="Limit" supporting-text="Max 10" maxlength="10"></md-outlined-text-field><md-outlined-text-field label="Disabled" disabled></md-outlined-text-field>'),
+ D('md-filled-field / md-outlined-field','<md-filled-field label="Field" populated style="width:220px"><span>Content</span></md-filled-field><md-outlined-field label="Field" populated style="width:220px"><span>Content</span></md-outlined-field>'),
+ D('md-filled-select / md-outlined-select','<md-filled-select label="Fruit"><md-select-option value="a" selected><div slot="headline">Apple</div></md-select-option><md-select-option value="b"><div slot="headline">Banana</div></md-select-option></md-filled-select><md-outlined-select label="Fruit"><md-select-option value="a"><div slot="headline">Apple</div></md-select-option><md-select-option value="b"><div slot="headline">Banana</div></md-select-option></md-outlined-select>',{cls:'tall'}),
+ D('md-search-bar','<md-search-bar id="sb" placeholder="Search" style="width:100%"></md-search-bar>',{cls:'col'}),
+ D('md-search-view (3.5.0)','<md-search-bar id="sb2" placeholder="Click to open search" style="width:320px"></md-search-bar><md-search-view anchor="sb2"><md-icon slot="leading-icon">search</md-icon><md-list flat><md-list-item><div slot="headline">Recent: Matecha</div></md-list-item><md-list-item><div slot="headline">Recent: Compose</div></md-list-item></md-list></md-search-view>',{cls:'tall'})]},
+{id:'overlays',n:'Menus, dialogs & feedback',d:'menu / dialog / top-popup / snackbar / tooltip',c:[
+ D('md-menu','<span style="position:relative"><md-filled-button id="m1" onclick="document.getElementById(\'menu1\').open=!document.getElementById(\'menu1\').open">Menu</md-filled-button><md-menu id="menu1" anchor="m1"><md-menu-item><div slot="headline">Cut</div></md-menu-item><md-menu-item><div slot="headline">Copy</div></md-menu-item><md-sub-menu><md-menu-item slot="item"><div slot="headline">More</div></md-menu-item><md-menu slot="menu"><md-menu-item><div slot="headline">Sub A</div></md-menu-item></md-menu></md-sub-menu></md-menu></span>',{cls:'tall'}),
+ D('md-menu variant="pink"','<span style="position:relative"><md-filled-tonal-button id="m2" onclick="document.getElementById(\'menu2\').open=!document.getElementById(\'menu2\').open">Pink menu</md-filled-tonal-button><md-menu id="menu2" anchor="m2" variant="pink"><md-menu-item><div slot="headline">Share</div></md-menu-item><md-menu-item><div slot="headline">Rename</div></md-menu-item></md-menu></span>',{cls:'tall'}),
+ D('md-dialog','<md-filled-button onclick="document.getElementById(\'dl1\').show()">Dialog</md-filled-button><md-dialog id="dl1"><div slot="headline">Discard draft?</div><form slot="content" method="dialog">変更は失われます。</form><div slot="actions"><md-text-button onclick="dl1.close()">Cancel</md-text-button><md-text-button onclick="dl1.close()">Discard</md-text-button></div></md-dialog>'),
+ D('md-dialog fullscreen / stacked','<md-outlined-button onclick="document.getElementById(\'dl2\').show()">Fullscreen</md-outlined-button><md-dialog id="dl2" fullscreen><div slot="headline">Fullscreen</div><div slot="content">全画面ダイアログ</div><div slot="actions"><md-text-button onclick="dl2.close()">Close</md-text-button></div></md-dialog><md-outlined-button onclick="document.getElementById(\'dl3\').show()">Stacked</md-outlined-button><md-dialog id="dl3" stacked><div slot="headline">Stacked</div><div slot="content">縦並びアクション</div><div slot="actions"><md-filled-button onclick="dl3.close()">Confirm</md-filled-button><md-text-button onclick="dl3.close()">Cancel</md-text-button></div></md-dialog>'),
+ D('md-top-popup (3.5.0)','<md-filled-tonal-button onclick="document.getElementById(\'tp\').show()">Top popup</md-filled-tonal-button><md-top-popup id="tp" duration="5000"><md-icon slot="icon">fullscreen</md-icon><div slot="headline">Viewing full screen</div>上にスワイプで閉じます。<div slot="actions"><md-text-button dialog-action="ok">Got it</md-text-button></div></md-top-popup>'),
+ D('md-snackbar / MateCha.toast','<md-filled-button onclick="MateCha.toast(\'Saved\',{action:\'Undo\',closeButton:true}).then(r=>console.log(r))">Toast</md-filled-button>'),
+ D('md-tooltip','<span style="position:relative"><md-icon-button id="tt"><md-icon>info</md-icon></md-icon-button><md-tooltip anchor="tt">Plain tooltip</md-tooltip></span>')]}
+];
+const app=document.getElementById('app'),rail=document.getElementById('rail'),esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let total=0;
+for(const s of S){
+ const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=s.n+'<small>'+s.c.length+'</small>';rail.append(a);
+ const sec=document.createElement('section');sec.id=s.id;
+ sec.innerHTML='<h2>'+s.n+'</h2><p>'+s.d+'</p>'+s.c.map(c=>{total++;return '<div class="demo" data-k="'+esc((c.t+' '+c.h).toLowerCase()).replace(/"/g,'')+'"><header>'+c.t+'</header><div class="stage '+(c.o?'':(c.cls||''))+'">'+c.h+'</div><details><summary>コードを見る</summary><pre>'+esc(c.h.replace(/ id="(dl|drw|tp)[^"]*"/g,m=>m))+'</pre></details></div>'}).join('');
+ app.append(sec);
+}
+document.getElementById('status').textContent=total+' demos · '+S.length+' categories';
+// scroll spy
+const links=[...rail.querySelectorAll('a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('on',l.hash==='#'+e.target.id))}),{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+// search
+document.getElementById('q').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();
+ document.querySelectorAll('.demo').forEach(d=>d.style.display=!v||d.dataset.k.includes(v)?'':'none');
+ document.querySelectorAll('section').forEach(s=>s.style.display=[...s.querySelectorAll('.demo')].some(d=>d.style.display!=='none')?'':'none')});
+// theme
+const go=()=>window.MateCha&&MateCha.applyTheme({seed:seed.value,variant:variant.value});
+seed.addEventListener('input',go);variant.addEventListener('change',go);
+dark.addEventListener('click',()=>window.MateCha&&MateCha.toggleDark());
+// load check
+setTimeout(()=>{if(!window.MateCha)document.getElementById('status').textContent='⚠ matecha-3.5.0-all.js を読み込めませんでした。ネットワーク/CDN を確認してください。'},4000);
+</script>
+</body>
+</html>
