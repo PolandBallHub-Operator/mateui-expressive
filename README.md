@@ -1,7 +1,7 @@
 # Matecha 🧉 Expressive Web
 
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](#license)
-[![Version](https://img.shields.io/badge/Version-3.0.0-purple.svg)](#quick-start)
+[![Version](https://img.shields.io/badge/Version-3.1.0-purple.svg)](#quick-start)
 [![Design](https://img.shields.io/badge/Material%203-Expressive-6750A4.svg)](#features)
 [![API](https://img.shields.io/badge/API%20compatible-%40material%2Fweb%202.5.0-orange.svg)](#relationship-to-material-web-not-a-fork)
 [![Implementation](https://img.shields.io/badge/Implementation-From%20scratch-yellow.svg)](#relationship-to-material-web-not-a-fork)
@@ -114,19 +114,13 @@ See [`SPECIFICATION.md`](./SPECIFICATION.md) for the full contract.
 ## Repository layout
 
 ```
-matecha-3.0.0-all.js          # complete bundle (part1 + part2)
-matecha-3_0_0-all_part1.js    # core, primitives, buttons, selection controls, slider
-matecha-3_0_0-all_part2.js    # progress … dialog, expressive additions, MateCha global
+matecha-3.1.0-all.js          # complete
 SPECIFICATION.md
 NOTICE
 LICENSE
 ```
 
-Rebuild the bundle:
-
-```sh
-cat matecha-3_0_0-all_part1.js matecha-3_0_0-all_part2.js > matecha-3.0.0-all.js
-```
+This bundle is no longer supported!
 
 ## Differences from `@material/web`
 
