@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.7.0
+
+### Added
+- Material button sizes XS / S / M / L / XL (32 / 40 / 56 / 96 / 136 dp) for buttons, icon buttons and split buttons.
+- `md-toggle-button` (off = pill, on = rounded square; filled / tonal / outlined / elevated).
+- `md-outlined-segmented-button(-set)`: classic Material 3 outlined segmented button with check icon.
+- `md-bottom-sheet`, `md-carousel` / `md-carousel-item`, `md-bottom-app-bar`, `md-text-field-group`.
+- `md-top-app-bar`: `type="search"`, subtitle, centred large / medium titles.
+- `md-slider`: `size="xxs"` (4 px) and pixel sizes (`size="56px"`).
+- Expressive text fields (16 px shapes, soft outline, no underline).
+
+### Changed
+- Press shapes: round buttons become a sharper rounded rectangle, square buttons become rounder.
+- Wavy slider: wave thickness equals the normal track thickness (thin and thick tracks).
+- `md-navigation-bar[horizontal]` / rail: spring FLIP animation of the pill, tab position and label.
+
+### Fixed
+- `md-swipe-action` and `md-switch-bar` press animation looked like frames ("paper theatre"): radius was animated from 999 px.
+- Fields reserved space for leading / trailing icons even when none was slotted.
+
 ## 3.6.0
 
 ### Added
