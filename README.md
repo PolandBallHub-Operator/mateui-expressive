@@ -1,15 +1,13 @@
 # Matecha 🧉 Expressive Web
 
-- https://polandballhub-operator.github.io/mateui-expressive/
-
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](#license)
-[![Version](https://img.shields.io/badge/Version-3.1.0-purple.svg)](#quick-start)
+[![Version](https://img.shields.io/badge/Version-3.6.0-purple.svg)](#quick-start)
 [![Design](https://img.shields.io/badge/Material%203-Expressive-6750A4.svg)](#features)
 [![API](https://img.shields.io/badge/API%20compatible-%40material%2Fweb%202.5.0-orange.svg)](#relationship-to-material-web-not-a-fork)
 [![Implementation](https://img.shields.io/badge/Implementation-From%20scratch-yellow.svg)](#relationship-to-material-web-not-a-fork)
 [![Dependencies](https://img.shields.io/badge/Dependencies-0-brightgreen.svg)](#features)
 [![Web Components](https://img.shields.io/badge/Web%20Components-Custom%20Elements-green.svg)](#components)
-[![Components](https://img.shields.io/badge/Components-70-blueviolet.svg)](#components)
+[![Components](https://img.shields.io/badge/Components-76-blueviolet.svg)](#components)
 [![Browsers](https://img.shields.io/badge/Browsers-Chrome%20111%2B%20%7C%20Safari%2016.4%2B%20%7C%20Firefox%20113%2B-lightgrey.svg)](#browser-support)
 
 **A from-scratch, drop-in replacement for Google's Material Web Components (MWC) — API-compatible, Material 3 Expressive.**
@@ -26,7 +24,7 @@ motion, in the Material 3 *Expressive* design language: spring motion, shape mor
 <!-- before -->
 <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js"></script>
 <!-- after -->
-<script type="module" src="./matecha-3.0.0-all.js"></script>
+<script type="module" src="./matecha-3.6.0-all.js"></script>
 ```
 
 ---
@@ -56,14 +54,14 @@ interface, so that sites built for MWC v2.5.0 can switch with no markup changes.
 - **Token compatible**: `--md-sys-color-*` resolve to the MateUI palette (`--mate-*`) and fall back to a built-in M3
   scheme. Material Theme Builder output overrides them (tokens are declared with `:where()` — zero specificity).
 - **Dynamic colour built in**: HCT-based tonal / expressive / vibrant schemes from any seed colour (`MateCha`).
-- **25+ additional components** that Material Web does not ship (navigation bar/drawer, snackbar, tooltip, card,
-  split button, FAB menu, toolbar, swipe item, …).
+- **32 additional components** that Material Web does not ship (navigation bar/drawer, snackbar, tooltip, card,
+  split button, FAB menu, toolbar, swipe item, switch bar, top popup, pull-to-refresh, search view, …).
 - Forms (`ElementInternals`), keyboard navigation, focus ring, ARIA and `prefers-reduced-motion` are supported.
 
 ## Quick start
 
 ```html
-<script type="module" src="./matecha-3.0.0-all.js"></script>
+<script type="module" src="./matecha-3.6.0-all.js"></script>
 
 <md-filled-button>Save</md-filled-button>
 <md-outlined-text-field label="Name" value="Matecha"></md-outlined-text-field>
@@ -93,6 +91,56 @@ Or use plain Material tokens — they keep working:
 | --- | --- |
 | `window.MATECHA_NO_FONTS = true` | Do not inject Google Fonts links (Material Symbols Rounded, Inter). Set it **before** loading the script. |
 
+## What's new in 3.6.0
+
+| Feature | Usage |
+| --- | --- |
+| Wavy slider | `<md-slider wavy>` — animated wavy active track (works with `size`, `range`, `vertical`) |
+| Centered slider | `<md-slider centered min="-50" max="50">` — fills from the centre (optional `origin`) |
+| Vertical slider fixed | `<md-slider vertical>` now drags reliably with touch and mouse |
+| Navigation rail | `<md-navigation-rail expanded>` + `<md-navigation-rail-item>` — collapsed (icon pill + label) / expanded (icon + label in the pill), `menu` and `fab` slots, badges |
+| Horizontal wide navigation bar | `<md-navigation-bar horizontal>` — labels inside the pill (as in the MateUI HTML) |
+| Swipe actions on list items and cards | `<md-list-item>` / `<md-card>` with `<md-swipe-action slot="swipe-actions">` (`tap-toggle`, `swipe-open`); capsule actions animate in like buttons |
+| Search view from any element | `<md-search-view trigger="#btn1, #btn2" fullscreen>` or `view.show(buttonElement)` |
+| Search bar height | `<md-search-bar size="xs\|s\|m\|l\|xl">`, `bar-height="72"` or `--md-search-bar-container-height` |
+| Stacked dialog buttons are pills | `<md-dialog stacked>` (buttons: 48 px high, fully rounded) |
+| Top popup actions use the primary colour | any button style placed in the `actions` slot (`--md-top-popup-action-*`) |
+| FAB menu no longer blocks touches while collapsed | `<md-fab-menu>` |
+
+## What's new in 3.5.0
+
+| Feature | Usage |
+| --- | --- |
+| Full-width stacked dialog buttons (Android 16 permission style) | `<md-dialog stacked>` — buttons in the `actions` slot become full-width |
+| Top popup (slides down from the top) | `<md-top-popup open>` — `icon` / `headline` / content / `actions` slots, swipe up to dismiss, `duration`, `modal` |
+| Switch: ✕ on the unselected handle | `<md-switch icons>` (✓ is shown on the selected handle by default; `no-icons` hides it) |
+| Thick slider with adjustable height | `<md-slider size="xs\|s\|m\|l\|xl">`, `track-height="72"` or `--md-slider-track-height`; optional `icon` slot and `icon-position="start\|end"` |
+| Vertical slider | `<md-slider vertical style="height:220px">` (also works with `size`, `range`, `labeled`, `ticks`) |
+| Pull to refresh | `<md-pull-to-refresh>` (`variant="expressive"` loading indicator, or `variant="classic"` round arc) — listen to `refresh`, call `event.detail.done()` |
+| Settings "main switch" pill | `<md-switch-bar label="Use Live Caption" selected>` — same width as `md-list` / `md-card` |
+| Circled back button in the top bar | `<md-top-app-bar back circle-leading headline="Live Caption">` (listen to `back`) |
+| Search screen (Compose `SearchBar` / `SearchView`) | `<md-search-view anchor="bar-id">` docked, or `fullscreen`; slots `leading-icon`, `trailing-icon`, results, `empty`; tokens `--md-search-view-*` |
+
+```html
+<md-dialog stacked open>
+  <md-icon slot="icon">photo_library</md-icon>
+  <div slot="headline">Allow Gallery to access photos and videos on this device?</div>
+  <div slot="actions">
+    <md-filled-button dialog-action="limited">Allow limited access</md-filled-button>
+    <md-filled-button dialog-action="all">Allow all</md-filled-button>
+    <md-filled-button dialog-action="deny">Don't allow</md-filled-button>
+  </div>
+</md-dialog>
+
+<md-pull-to-refresh style="height:480px" id="feed">…</md-pull-to-refresh>
+<script>feed.addEventListener('refresh', e => load().then(e.detail.done));</script>
+
+<md-search-bar id="bar" alignment="start" placeholder="What are you looking for?"></md-search-bar>
+<md-search-view anchor="bar" placeholder="What are you looking for?">…results…</md-search-view>
+```
+
+See [`CHANGELOG.md`](./CHANGELOG.md).
+
 ## Components
 
 **Compatible with `@material/web` 2.5.0** — `md-ripple`, `md-focus-ring`, `md-elevation`, `md-icon`, `md-divider`,
@@ -109,20 +157,28 @@ Or use plain Material tokens — they keep working:
 `md-navigation-bar`, `md-navigation-tab`, `md-navigation-drawer`, `md-navigation-drawer-item`,
 `md-navigation-drawer-header`, `md-navigation-drawer-divider`, `md-top-app-bar`, `md-snackbar`, `md-tooltip`,
 `md-card`, `md-badge`, `md-avatar`, `md-loading-indicator`, `md-toolbar`, `md-swipe-item`, `md-swipe-action`,
-`md-search-bar`.
+`md-search-bar`, **(3.5.0)** `md-switch-bar`, `md-top-popup`, `md-pull-to-refresh`, `md-search-view`, **(3.6.0)** `md-navigation-rail`, `md-navigation-rail-item`.
 
 See [`SPECIFICATION.md`](./SPECIFICATION.md) for the full contract.
 
 ## Repository layout
 
 ```
-matecha-3.1.0-all.js          # complete
+matecha-3.6.0-all.js          # complete bundle (part1 + part2 + part3)
+matecha-3_6_0-all_part1.js    # core, primitives, buttons, selection controls, slider
+matecha-3_6_0-all_part2.js    # progress … dialog, expressive additions, MateCha global
+matecha-3_6_0-all_part3.js    # 3.5–3.6: switch bar, top popup, pull-to-refresh, search view, navigation rail
 SPECIFICATION.md
+CHANGELOG.md
 NOTICE
 LICENSE
 ```
 
-This bundle is no longer supported!
+Rebuild the bundle:
+
+```sh
+cat matecha-3_6_0-all_part1.js matecha-3_6_0-all_part2.js matecha-3_6_0-all_part3.js > matecha-3.6.0-all.js
+```
 
 ## Differences from `@material/web`
 
