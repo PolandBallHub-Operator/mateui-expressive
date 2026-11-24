@@ -1,6 +1,6 @@
 # Matecha 🧉 Expressive Web — Specification
 
-Version: **3.6.0** · Component name: **MateCha** · Baseline: **`@material/web` v2.5.0 (`all.js`)**
+Version: **3.7.0** · Component name: **MateCha** · Baseline: **`@material/web` v2.5.0 (`all.js`)**
 
 Key words **MUST**, **SHOULD** and **MAY** are used as in RFC 2119.
 
@@ -16,7 +16,7 @@ source code. Only the public interface is shared.
 ## 1.1 Goals
 
 1. **Compatibility.** A page that works with `@material/web` v2.5.0 MUST keep working after replacing the import with
-   `matecha-3.6.0-all.js`, without markup changes.
+   `matecha-3.7.0-all.js`, without markup changes.
 2. **Expressive design.** Visuals and motion follow the MateUI HTML reference (Material 3 Expressive). They MUST NOT be
    simplified, and MUST NOT use Tailwind or ad-hoc gradients.
 3. **General purpose.** Every component is a reusable, standards-based Web Component. None is tied to a particular page.
@@ -27,9 +27,9 @@ source code. Only the public interface is shared.
 
 | File | Content |
 | --- | --- |
-| `matecha-3.6.0-all.js` | Complete bundle (ES module, side-effect import). |
-| `matecha-3_6_0-all_part1.js` | Core, primitives, buttons, selection controls, slider. |
-| `matecha-3_6_0-all_part2.js` | Progress, chips, tabs, list, fields, menus, dialog, additions, `MateCha` global. |
+| `matecha-3.7.0-all.js` | Complete bundle (ES module, side-effect import). |
+| `matecha-3_7_0-all_part1.js` | Core, primitives, buttons, selection controls, slider. |
+| `matecha-3_7_0-all_part2.js` | Progress, chips, tabs, list, fields, menus, dialog, additions, `MateCha` global. |
 
 Loading the module registers every element with `customElements.define` (skipping names already defined) and
 defines `window.MateCha` and `window.MateChaComponents`. The bundle has no exports.
@@ -84,6 +84,11 @@ Matecha is an independent implementation: it MAY (and does) differ in shadow DOM
 | `md-switch-bar` | Full-width settings "main switch" pill (form-associated); same width as `md-list` / `md-card`. |
 | `md-top-popup` | Card sliding down from the top edge; slots `icon`, `headline`, content, `actions`; swipe up / auto dismiss. |
 | `md-pull-to-refresh` | Pull-down refresh container; `variant="expressive"` (loading indicator) or `"classic"` (round arc). Event `refresh`. |
+| `md-toggle-button` | Toggle button: off = pill, on = rounded square; `variant`, `size`. |
+| `md-bottom-sheet` | Modal / standard bottom sheet with drag handle, partial / expanded heights. |
+| `md-carousel` / `md-carousel-item` | Multi-browse, hero, uncontained and full-screen carousel. |
+| `md-bottom-app-bar` | Bottom bar with `fab` slot; `fab-position`, `fixed`, `hide-on-scroll`. |
+| `md-text-field-group` | Connected stack of text fields. |
 | `md-navigation-rail` / `md-navigation-rail-item` | Vertical rail; `expanded` toggles collapsed (96 px) / expanded; slots `menu`, `fab`; event `navigation-rail-toggle`. |
 | `md-search-view` | Docked or fullscreen search screen (Compose SearchBar/SearchView); `anchor`, slots, `--md-search-view-*` tokens. |
 
@@ -102,6 +107,9 @@ camelCase properties, `part` names, `--md-<component>-*` tokens, and standard DO
 | `md-slider` | `size="xs|s|m|l|xl"`, `track-height` | Active track height 16/24/40/56/96 px or any px value (`--md-slider-track-height`); handle = track + 16 px. |
 | `md-slider` | `vertical` | Vertical orientation; give the element a `height`. |
 | `md-slider` | `icon` slot, `icon-position="start|end"` | Icon inside the track (hidden when the track is thinner than 32 px). |
+| `md-*-button`, `md-*-icon-button`, `md-split-button` | `size="xs|s|m|l|xl"` | 32 / 40 / 56 / 96 / 136 dp (padding, icon and label scale per Material). Pressed shape: round → sharper (0.25 × height), square → rounder (0.4 × height). |
+| `md-slider` | `size="xxs"`, `size="<px>"` | 4 px track; any pixel thickness (`size="56px"`). |
+| `md-top-app-bar` | `type="search"`, `subtitle`, `centered` | Search bar in the bar; subtitle; centred large / medium title. |
 | `md-slider` | `wavy`, `centered`, `origin` | Wavy active track (stroke ≤ 20 px, animated); fill from the centre / from `origin`. |
 | `md-list-item`, `md-card` | slot `swipe-actions`, `swipe-open`, `tap-toggle` | Swipe-to-reveal actions; events `swipe-open` / `swipe-close`. |
 | `md-search-bar` | `size="xs|s|m|l|xl"`, `bar-height` | Height 40 / 48 / 56 / 64 / 72 px or any px value (`--md-search-bar-container-height`). |
