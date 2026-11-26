@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Material Expressive Studio</title>
+<script type="module" src="https://cdn.jsdelivr.net/gh/PolandBallHub-Operator/mateui-expressive@main/matecha-3.7.0-all.js"></script>
+<style>
+:root{color-scheme:light;--bg:var(--md-sys-color-surface,#fef7ff);--fg:var(--md-sys-color-on-surface,#1d1b20);--ol:var(--md-sys-color-outline-variant,#cac4d0);--pn:var(--md-sys-color-surface-container,#f3edf7);--pr:var(--md-sys-color-primary,#6750a4);--pc:var(--md-sys-color-primary-container,#eaddff)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark}}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{display:grid;grid-template-rows:60px 1fr;height:100%}
+header{display:flex;align-items:center;gap:6px;padding:0 12px;background:var(--pn);border-bottom:1px solid var(--ol);overflow-x:auto}
+header h1{font-size:18px;font-weight:600;margin:0 12px 0 4px;white-space:nowrap}
+header .sp{flex:1}
+main{display:grid;grid-template-columns:240px 1fr 290px;min-height:0}
+aside{background:var(--pn);overflow:auto;min-height:0}
+.L{border-right:1px solid var(--ol);display:grid;grid-template-rows:auto 1fr}
+.R{border-left:1px solid var(--ol);padding:12px;display:flex;flex-direction:column;gap:12px}
+h3{margin:0;font-size:12px;font-weight:600;letter-spacing:.02em;opacity:.7;padding:10px 12px 4px}
+.R h3{padding:0}
+.pal{max-height:300px;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 10px 10px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;background:var(--bg);font-size:12px;cursor:grab;user-select:none;border:1px solid var(--ol)}
+.tile:hover{background:var(--pc)}
+.ti{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:13px;cursor:pointer;border-radius:12px;margin:0 6px}
+.ti.sel{background:var(--pc)}.ti small{opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.C{display:grid;grid-template-rows:auto 1fr;min-width:0;min-height:0;background:color-mix(in srgb,var(--fg) 8%,var(--bg))}
+.acts{display:flex;align-items:center;gap:4px;padding:6px 10px;background:var(--bg);border-bottom:1px solid var(--ol);overflow-x:auto}
+.at{padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;white-space:nowrap}.at.on{background:var(--pc);font-weight:600}
+.stage{overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:24px;min-height:0}
+.frame{transform-origin:top left;background:var(--bg);border-radius:22px;box-shadow:0 0 0 8px #222,0 12px 40px #0006;overflow:auto;position:relative}
+.frame.run{overflow:hidden}.frame iframe{border:0;width:100%;height:100%;display:block}
+textarea.code{width:100%;height:100%;font:12px/1.5 ui-monospace,monospace;background:var(--bg);color:var(--fg);border:0;padding:16px;resize:none}
+.sel-n{outline:2px solid var(--pr);outline-offset:2px;border-radius:4px}
+.drop-b{box-shadow:0 -3px 0 var(--pr)}.drop-a{box-shadow:0 3px 0 var(--pr)}
+.edit .w>*{pointer-events:none}.edit .w{cursor:pointer;pointer-events:auto}.edit [data-abs]{background-image:linear-gradient(var(--ol) 1px,transparent 1px),linear-gradient(90deg,var(--ol) 1px,transparent 1px);background-size:20px 20px}.edit [data-abs]>.w{touch-action:none;cursor:move}.rz{position:absolute;right:-4px;bottom:-4px;width:16px!important;height:16px!important;border-radius:50%;background:var(--pr);cursor:nwse-resize;pointer-events:auto!important;z-index:5}.edit .w.ov{position:static}.edit [data-c]{min-height:44px;outline:1px dashed var(--ol);outline-offset:-1px;border-radius:8px}.ovp{border:2px dashed var(--pr);border-radius:20px;padding:12px;background:var(--pn);font-size:13px}.drop-l{box-shadow:-3px 0 0 var(--pr)}.drop-r{box-shadow:3px 0 0 var(--pr)}.edit .tn,.edit .tn *{pointer-events:auto;cursor:pointer}.drop-i{outline:3px solid var(--pr)!important}#mtb{display:grid;grid-template-columns:230px 1fr;gap:16px;min-height:60vh}.mtl{display:flex;flex-direction:column;gap:6px}.pb{padding:8px 10px;border-radius:10px;cursor:pointer;font-size:13px;color:#fff;background:var(--c,#888)}.blk{border-radius:10px;padding:6px;margin:4px 0;background:var(--c,#888);color:#fff;font-size:13px}.br{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.slot{margin:4px 0 4px 14px;padding:4px;border-radius:8px;background:#0003;min-height:28px;border:2px dashed transparent}.slot.on{border-color:#fff}.slot small{opacity:.7}.bi{font:inherit;padding:3px 6px;border-radius:6px;border:0;max-width:150px}.bx{margin-left:auto;display:flex;gap:8px}.bx i,.sh i,.vr i{cursor:pointer;font-style:normal;font-size:11px;opacity:.85}.sc{border:1px solid var(--ol);border-radius:16px;padding:10px;margin-bottom:12px}.sh{display:flex;gap:8px;align-items:center;margin-bottom:6px}.vr{display:flex;gap:6px;align-items:center;font-size:13px}.vr .bi{width:70px;background:var(--pn);color:var(--fg)}.sh .bi{background:var(--pn);color:var(--fg)}[data-cat=v]{--c:#43a047}[data-cat=m]{--c:#7e57c2}[data-cat=c]{--c:#fb8c00}[data-cat=u]{--c:#1e88e5}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.R md-outlined-text-field,.R md-outlined-select{width:100%}
+input[type=color]{width:34px;height:34px;border:0;padding:0;background:none;cursor:pointer}
+@media(max-width:900px){main{grid-template-columns:1fr}aside{display:none}}
+/* generated-screen CSS (shared with export) */
+APPCSS_PLACEHOLDER
+</style>
+</head>
+<body>
+<header>
+  <md-icon>deployed_code</md-icon>
+  <h1>Material Expressive Studio</h1>
+  <md-filled-tonal-button id="m-design">Design</md-filled-tonal-button>
+  <md-text-button id="m-run">Run</md-text-button>
+  <md-text-button id="m-code">Code</md-text-button>
+  <span class="sp"></span>
+  <md-outlined-select id="dev" label="Device" style="min-width:210px"></md-outlined-select>
+  <md-icon-button id="rot" title="回転"><md-icon>screen_rotation</md-icon></md-icon-button>
+  <input type="color" id="seed" value="#6750a4" title="Seed color">
+  <md-icon-button id="dk" title="Dark"><md-icon>dark_mode</md-icon></md-icon-button>
+  <md-filled-tonal-button id="mtbtn"><md-icon slot="icon">extension</md-icon>Materatch</md-filled-tonal-button>
+  <md-icon-button id="imp" title="Import"><md-icon>upload_file</md-icon></md-icon-button>
+  <md-text-button id="cp"><md-icon slot="icon">content_copy</md-icon>Copy</md-text-button>
+  <md-filled-button id="ex"><md-icon slot="icon">download</md-icon>Export HTML</md-filled-button>
+  <input type="file" id="file" accept=".html" hidden>
+</header>
+<main>
+  <aside class="L"><div><h3>Palette</h3><label style="display:flex;align-items:center;justify-content:space-between;padding:0 12px 4px;font-size:12px">選択中の部品と同じ行に追加<md-switch id="same"></md-switch></label><div class="pal" id="pal"></div></div><div><h3>Component Tree</h3><div id="tree"></div></div></aside>
+  <section class="C"><div class="acts" id="acts"></div><div class="stage" id="stage"></div></section>
+  <aside class="R" id="props"></aside>
+</main>
+<md-dialog id="mt" fullscreen><div slot="headline">Materatch — ブロックでアクションを組む</div><div slot="content" id="mtb"></div><div slot="actions"><md-filled-button dialog-action="close">閉じる</md-filled-button></div></md-dialog>
+<script type="module">
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CDN='https://cdn.jsdelivr.net/gh/PolandBallHub-Operator/mateui-expressive@main/matecha-3.7.0-all.js';
+const $=s=>document.querySelector(s);
+let ctxAct='';
+const at=n=>` id="${n.id}"`+(n.act&&n.act!='none'?` data-act="${n.act}" data-arg="${esc(n.arg)}"`:'');
+const ic=n=>n.icon?`<md-icon slot="icon">${esc(n.icon)}</md-icon>`:'';
+const BT={filled:'md-filled-button',tonal:'md-filled-tonal-button',outlined:'md-outlined-button',elevated:'md-elevated-button',text:'md-text-button'};
+const IT={standard:'md-icon-button',filled:'md-filled-icon-button',tonal:'md-filled-tonal-icon-button',outlined:'md-outlined-icon-button'};
+const L=s=>String(s).split('\n').filter(Boolean).map(l=>l.split(',').map(x=>x.trim()));
+const lab=(n,el)=>`<label style="display:flex;align-items:center;gap:12px">${el}${esc(n.text)}</label>`;
+const T={
+ text:{i:'title',n:'Text',d:{text:'見出し',size:'22'},f:[['text','Text'],['size','Size px']],r:n=>`<div${at(n)} style="font-size:${+n.size||16}px;line-height:1.3">${esc(n.text)}</div>`},
+ button:{i:'smart_button',n:'Button',d:{text:'Button',variant:'filled',icon:''},f:[['text','Label'],['variant','Type','s:filled|tonal|outlined|elevated|text'],['icon','Icon name']],r:n=>`<${BT[n.variant]}${at(n)}>${ic(n)}${esc(n.text)}</${BT[n.variant]}>`},
+ iconbtn:{i:'touch_app',n:'Icon button',d:{icon:'favorite',variant:'tonal'},f:[['icon','Icon name'],['variant','Type','s:standard|filled|tonal|outlined']],r:n=>`<${IT[n.variant]}${at(n)}><md-icon>${esc(n.icon)}</md-icon></${IT[n.variant]}>`},
+ fab:{i:'add_circle',n:'FAB',d:{icon:'add'},f:[['icon','Icon name']],r:n=>`<md-fab${at(n)}><md-icon slot="icon">${esc(n.icon)}</md-icon></md-fab>`},
+ field:{i:'text_fields',n:'Text field',d:{label:'Label',value:'',variant:'outlined'},f:[['label','Label'],['value','Value'],['variant','Type','s:outlined|filled']],r:n=>`<md-${n.variant}-text-field${at(n)} label="${esc(n.label)}" value="${esc(n.value)}"></md-${n.variant}-text-field>`},
+ switch:{i:'toggle_on',n:'Switch',d:{text:'Switch',on:true},f:[['text','Label'],['on','On','b']],r:n=>`<label style="display:flex;justify-content:space-between;align-items:center">${esc(n.text)}<md-switch${at(n)}${n.on?' selected':''}></md-switch></label>`},
+ slider:{i:'tune',n:'Slider',d:{value:'40'},f:[['value','Value 0-100']],r:n=>`<md-slider${at(n)} value="${+n.value||0}" style="width:100%"></md-slider>`},
+ progress:{i:'linear_scale',n:'Progress',d:{value:'0.4',wavy:true},f:[['value','Value 0-1'],['wavy','Wavy','b']],r:n=>`<md-linear-progress${at(n)} value="${+n.value||0}"${n.wavy?' wavy':''} style="width:100%"></md-linear-progress>`},
+ card:{i:'crop_square',n:'Card',d:{text:'Card title',body:'Supporting text',variant:'filled'},f:[['text','Title'],['body','Body'],['variant','Type','s:filled|elevated|outlined|tonal']],r:n=>`<md-card${at(n)} variant="${n.variant}"${n.act&&n.act!='none'?' interactive':''} style="padding:16px;display:block"><div style="font-size:16px;font-weight:600">${esc(n.text)}</div><div style="opacity:.75;margin-top:4px">${esc(n.body)}</div></md-card>`},
+ chip:{i:'label',n:'Chip',d:{text:'Chip'},f:[['text','Label']],r:n=>`<md-assist-chip${at(n)} label="${esc(n.text)}"></md-assist-chip>`},
+ appbar:{i:'web_asset',n:'Top app bar',c:'bleed',d:{text:'Title',type:'small',back:false},f:[['text','Title'],['type','Type','s:small|center-aligned|medium|large|search'],['back','Back button','b']],r:n=>`<md-top-app-bar${at(n)} style="width:100%" headline="${esc(n.text)}" type="${n.type}">${n.back?'<md-icon-button slot="leading" data-act="back"><md-icon>arrow_back</md-icon></md-icon-button>':''}</md-top-app-bar>`},
+ navbar:{i:'menu',n:'Navigation bar',c:'bot',noact:1,d:{tabs:'Home,home,main\nSearch,search,\nProfile,person,'},f:[['tabs','label,icon,activityId (1行1タブ)','m']],r:n=>`<md-navigation-bar${at(n)} style="width:100%">${n.tabs.split('\n').filter(Boolean).map(l=>{const[a,b,c]=l.split(',').map(s=>s.trim());return`<md-navigation-tab label="${esc(a)}"${c?` data-act="go" data-arg="${esc(c)}"`:''}${c==ctxAct?' active':''}><md-icon slot="inactive-icon">${esc(b)}</md-icon><md-icon slot="active-icon">${esc(b)}</md-icon></md-navigation-tab>`}).join('')}</md-navigation-bar>`},
+ divider:{i:'horizontal_rule',n:'Divider',d:{},f:[],noact:1,r:n=>`<md-divider></md-divider>`},
+ spacer:{i:'height',n:'Spacer',d:{h:'24'},f:[['h','Height px']],noact:1,r:n=>`<div style="height:${+n.h||0}px"></div>`},
+ image:{i:'image',n:'Image box',d:{icon:'image',h:'160'},f:[['icon','Icon name'],['h','Height px']],r:n=>`<div${at(n)} style="height:${u(n.h||100)};border-radius:24px;display:grid;place-items:center;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container)"><md-icon style="font-size:48px">${esc(n.icon)}</md-icon></div>`},
+ avatar:{i:'account_circle',n:'Avatar',d:{text:'AB',tone:'default'},f:[['text','Initials'],['tone','Tone','s:default|lavender|pink|soft']],r:n=>`<div><md-avatar${at(n)}${n.tone!='default'?` tone="${n.tone}"`:''}>${esc(n.text)}</md-avatar></div>`},
+ badge:{i:'brightness_1',n:'Badge',d:{value:'3'},f:[['value','Value (空で点)']],r:n=>`<div><md-badge${at(n)} value="${esc(n.value)}"></md-badge></div>`},
+ checkbox:{i:'check_box',n:'Checkbox',d:{text:'Checkbox',on:true},f:[['text','Label'],['on','Checked','b']],r:n=>lab(n,`<md-checkbox${at(n)}${n.on?' checked':''}></md-checkbox>`)},
+ radio:{i:'radio_button_checked',n:'Radio group',d:{items:'Option A\nOption B\nOption C',sel:'0'},f:[['items','項目 (1行1つ)','m'],['sel','Selected index']],r:n=>`<div${at(n)} style="display:flex;flex-direction:column;gap:8px">${L(n.items).map(([a],i)=>`<label style="display:flex;align-items:center;gap:12px"><md-radio name="${n.id}" value="${i}"${i==+n.sel?' checked':''}></md-radio>${esc(a)}</label>`).join('')}</div>`},
+ switchbar:{i:'toggle_off',n:'Switch bar',d:{text:'Use feature',sub:'Supporting text',on:false},f:[['text','Label'],['sub','Supporting'],['on','On','b']],r:n=>`<md-switch-bar${at(n)} label="${esc(n.text)}"${n.on?' selected':''} style="width:100%"><span slot="supporting-text">${esc(n.sub)}</span></md-switch-bar>`},
+ togglebtn:{i:'toggle_on',n:'Toggle button',d:{text:'Toggle',variant:'tonal',on:false},f:[['text','Label'],['variant','Type','s:filled|tonal'],['on','Selected','b']],r:n=>`<div><md-toggle-button${at(n)} variant="${n.variant}"${n.on?' selected':''}>${esc(n.text)}</md-toggle-button></div>`},
+ select:{i:'arrow_drop_down_circle',n:'Select',d:{label:'Fruit',items:'Apple\nBanana\nCherry',variant:'outlined'},f:[['label','Label'],['items','項目 (1行1つ)','m'],['variant','Type','s:outlined|filled']],r:n=>`<md-${n.variant}-select${at(n)} label="${esc(n.label)}" style="width:100%">${L(n.items).map(([a],i)=>`<md-select-option value="${esc(a)}"${i?'':' selected'}><div slot="headline">${esc(a)}</div></md-select-option>`).join('')}</md-${n.variant}-select>`},
+ search:{i:'search',n:'Search bar',d:{ph:'Search'},f:[['ph','Placeholder']],r:n=>`<md-search-bar${at(n)} placeholder="${esc(n.ph)}" style="width:100%"></md-search-bar>`},
+ tabs:{i:'tab',n:'Tabs',d:{items:'Video\nPhotos\nMusic',variant:'primary'},f:[['items','タブ (1行1つ)','m'],['variant','Type','s:primary|secondary']],r:n=>`<md-tabs${at(n)} style="width:100%">${L(n.items).map(([a],i)=>`<md-${n.variant}-tab${i?'':' active'}>${esc(a)}</md-${n.variant}-tab>`).join('')}</md-tabs>`},
+ list:{i:'list',n:'List',d:{items:'Contacts,Your people,person,\nSettings,Preferences,settings,detail'},f:[['items','headline,supporting,icon,遷移先id (1行1項目)','m']],r:n=>`<md-list${at(n)} style="width:100%">${L(n.items).map(([h,s,i,c])=>`<md-list-item${c?` type="button" data-act="go" data-arg="${esc(c)}"`:''}>${i?`<md-icon slot="start">${esc(i)}</md-icon>`:''}<div slot="headline">${esc(h)}</div>${s?`<div slot="supporting-text">${esc(s)}</div>`:''}</md-list-item>`).join('')}</md-list>`,noact:1},
+ segmented:{i:'view_week',n:'Segmented buttons',d:{items:'Map\nList\nGrid'},f:[['items','項目 (1行1つ)','m']],r:n=>`<md-segmented-button-set${at(n)}>${L(n.items).map(([a],i)=>`<md-segmented-button label="${esc(a)}"${i?'':' selected'}></md-segmented-button>`).join('')}</md-segmented-button-set>`},
+ connected:{i:'splitscreen',n:'Connected group',d:{items:'Day\nWeek\nMonth'},f:[['items','項目 (1行1つ)','m']],r:n=>`<md-connected-button-group${at(n)}>${L(n.items).map(([a],i)=>`<md-connected-button${i?'':' selected'}>${esc(a)}</md-connected-button>`).join('')}</md-connected-button-group>`},
+ carousel:{i:'view_carousel',n:'Carousel',d:{count:'5',h:'180'},f:[['count','Items'],['h','Height px']],r:n=>`<md-carousel${at(n)} variant="multi-browse" style="width:100%;height:${u(n.h||160)}">${Array.from({length:Math.min(12,+n.count||3)},(_,i)=>`<md-carousel-item label="Item ${i+1}"><div style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);display:grid;place-items:center;font-size:28px">${i+1}</div></md-carousel-item>`).join('')}</md-carousel>`,noact:1},
+ toolbar:{i:'build',n:'Toolbar',d:{icons:'format_bold,format_italic,link'},f:[['icons','Icons (カンマ区切り)']],r:n=>`<div><md-toolbar${at(n)}>${n.icons.split(',').map(s=>s.trim()).filter(Boolean).map(i=>`<md-icon-button><md-icon>${esc(i)}</md-icon></md-icon-button>`).join('')}</md-toolbar></div>`,noact:1},
+ loading:{i:'hourglass_top',n:'Loading',d:{},f:[],r:n=>`<div><md-loading-indicator${at(n)}></md-loading-indicator></div>`},
+ circular:{i:'donut_large',n:'Circular progress',d:{value:'0.6',ind:false},f:[['value','Value 0-1'],['ind','Indeterminate','b']],r:n=>`<div><md-circular-progress${at(n)} ${n.ind?'indeterminate':`value="${+n.value||0}"`}></md-circular-progress></div>`},
+ row:{i:'view_column',n:'Row',k:1,d:{kids:[],gap:'12',pad:'0',al:'center',jc:'flex-start',bg:'none',rad:'0',wr:false},f:bf().concat([['wr','Wrap','b'],['eq','子を均等幅にする','b']]),r:n=>box(n,'row')},
+ col:{i:'view_agenda',n:'Column',k:1,d:{kids:[],gap:'12',pad:'0',al:'stretch',jc:'flex-start',bg:'none',rad:'0'},f:bf(),r:n=>box(n,'col')},
+ splitbtn:{i:'arrow_drop_down',n:'Split button',d:{text:'Publish',items:'Save as draft\nSchedule'},f:[['text','Label'],['items','メニュー label,遷移先id (1行1つ)','m']],r:n=>`<md-split-button${at(n)}><md-menu slot="menu">${L(n.items).map(([a,c])=>`<md-menu-item${c?` data-act="go" data-arg="${esc(c)}"`:''}><div slot="headline">${esc(a)}</div></md-menu-item>`).join('')}</md-menu>${esc(n.text)}</md-split-button>`},
+ brandedfab:{i:'palette',n:'Branded FAB',d:{icon:'palette'},f:[['icon','Icon name']],r:n=>`<md-branded-fab${at(n)} aria-label="fab"><md-icon slot="icon">${esc(n.icon)}</md-icon></md-branded-fab>`},
+ fabmenu:{i:'speed_dial',n:'FAB menu',noact:1,d:{items:'Photo,image,\nNote,note,'},f:[['items','label,icon,遷移先id (1行1つ)','m']],r:n=>`<md-fab-menu${at(n)}>${L(n.items).map(([a,i,c])=>`<md-fab-menu-item label="${esc(a)}"${c?` data-act="go" data-arg="${esc(c)}"`:''}><md-icon slot="icon">${esc(i||'add')}</md-icon></md-fab-menu-item>`).join('')}</md-fab-menu>`},
+ dialog:{i:'chat_bubble',n:'Dialog (overlay)',ov:1,k:1,c:'ov',d:{kids:[],text:'Discard draft?',ok:'OK',cancel:'Cancel',kind:'basic'},f:[['text','Headline'],['ok','OKラベル (動作=OK押下時)'],['cancel','Cancelラベル (空=なし)'],['kind','Type','s:basic|fullscreen|stacked']],r:n=>EDIT?pv(n,`<b>Dialog</b> ${esc(n.text)}`,KIDS(n),`${esc(n.cancel)} / ${esc(n.ok)}`):`<md-dialog id="${n.id}"${n.kind!='basic'?' '+n.kind:''}><div slot="headline">${esc(n.text)}</div><div slot="content" style="display:flex;flex-direction:column;gap:8px">${KIDS(n)}</div><div slot="actions">${n.cancel?`<md-text-button dialog-action="cancel">${esc(n.cancel)}</md-text-button>`:''}<md-text-button dialog-action="ok"${aa(n)}>${esc(n.ok)}</md-text-button></div></md-dialog>`},
+ sheet:{i:'vertical_align_bottom',n:'Bottom sheet (overlay)',ov:1,k:1,c:'ov',d:{kids:[],text:'Sheet',std:false},f:[['text','名前'],['std','Standard (scrimなし)','b']],noact:1,r:n=>EDIT?pv(n,`<b>Bottom sheet</b> ${esc(n.text)}`,KIDS(n),''):`<md-bottom-sheet id="${n.id}"${n.std?' standard':''}><div style="padding:0 24px 24px;display:flex;flex-direction:column;gap:12px">${KIDS(n)}</div></md-bottom-sheet>`},
+ popup:{i:'call_to_action',n:'Top popup (overlay)',ov:1,c:'ov',d:{text:'Heads up',body:'Message',dur:'5000'},f:[['text','Headline'],['body','Body'],['dur','Duration ms (0=自動で閉じない)']],r:n=>EDIT?pv(n,`<b>Top popup</b> ${esc(n.text)}`,null,esc(n.body)):`<md-top-popup id="${n.id}" duration="${+n.dur||0}"><div slot="headline">${esc(n.text)}</div>${esc(n.body)}<div slot="actions"><md-text-button dialog-action="ok"${aa(n)}>OK</md-text-button></div></md-top-popup>`},
+ snackbar:{i:'sms',n:'Snackbar (overlay)',ov:1,c:'ov',noact:1,d:{message:'Saved',action:'Undo'},f:[['message','Message'],['action','Action label']],r:n=>EDIT?pv(n,`<b>Snackbar</b> ${esc(n.message)}`,null,esc(n.action)):`<md-snackbar id="${n.id}" message="${esc(n.message)}"${n.action?` action-label="${esc(n.action)}"`:''} close-button></md-snackbar>`},
+ frame:{i:'dashboard_customize',n:'Frame (自由配置)',k:1,d:{kids:[],fh:'360',bg:'none',rad:'0'},f:[['fh','Height px'],['bg','Background','s:none|surface-container|primary-container|secondary-container|tertiary-container|error-container'],['rad','Radius px']],r:n=>`<div${at(n)} data-abs${EDIT?' data-c':''} style="position:relative;overflow:hidden;height:${u(n.fh||200)};${n.bg!='none'?`background:var(--md-sys-color-${n.bg});`:''}border-radius:${+n.rad||0}px">${KIDS(n,'abs')}</div>`},
+ tooltip:{i:'info',n:'Tooltip (overlay)',c:'ov',noact:1,d:{target:'',text:'Tooltip text',kind:'plain',head:'',place:'top'},f:[['target','対象の部品','@n'],['text','Text'],['kind','Type','s:plain|rich'],['head','Heading (rich)'],['place','Placement','s:top|bottom|left|right']],r:n=>EDIT?pv(n,`<b>Tooltip</b> → ${esc(n.target)||'?'}`,null,esc(n.text)):`<md-tooltip for="${esc(n.target)}" variant="${n.kind}"${n.head?` heading="${esc(n.head)}"`:''} placement="${n.place}">${esc(n.text)}</md-tooltip>`},
+ menu:{i:'more_vert',n:'Menu (overlay)',ov:1,c:'ov',noact:1,d:{anchor:'',items:'Cut,content_cut,\nCopy,content_copy,\nPaste,content_paste,'},f:[['anchor','アンカー部品','@n'],['items','label,icon,遷移先id (1行1項目)','m']],r:n=>EDIT?pv(n,`<b>Menu</b> anchor: ${esc(n.anchor)||'?'}`,null,L(n.items).map(a=>esc(a[0])).join(' / ')):`<md-menu id="${n.id}"${n.anchor?` anchor="${esc(n.anchor)}"`:''}>${L(n.items).map(([a,i,c])=>`<md-menu-item${c?` data-act="go" data-arg="${esc(c)}"`:''}>${i?`<md-icon slot="start">${esc(i)}</md-icon>`:''}<div slot="headline">${esc(a)}</div></md-menu-item>`).join('')}</md-menu>`},
+ bottomappbar:{i:'bottom_app_bar',n:'Bottom app bar',c:'bot',d:{items:'search,\ndelete,\narchive,',fab:'add'},f:[['items','icon,遷移先id (1行1つ)','m'],['fab','FAB icon (空=なし / 動作=FABの動作)']],r:n=>`<md-bottom-app-bar id="${n.id}" style="width:100%">${L(n.items).map(([i,c])=>`<md-icon-button${c?` data-act="go" data-arg="${esc(c)}"`:''}><md-icon>${esc(i)}</md-icon></md-icon-button>`).join('')}${n.fab?`<md-fab slot="fab" size="small"${aa(n)} aria-label="fab"><md-icon slot="icon">${esc(n.fab)}</md-icon></md-fab>`:''}</md-bottom-app-bar>`},
+ swipe:{i:'swipe_left',n:'Swipe item',d:{text:'Swipe left',actions:'Delete,delete\nArchive,archive'},f:[['text','Text'],['actions','label,icon (1行1つ)','m']],r:n=>`<md-swipe-item${at(n)} style="width:100%"><div style="padding:18px">${esc(n.text)}</div>${L(n.actions).map(([a,i])=>`<md-swipe-action slot="actions" label="${esc(a)}"><md-icon>${esc(i||'star')}</md-icon></md-swipe-action>`).join('')}</md-swipe-item>`},
+ rail:{i:'view_sidebar',n:'Navigation rail',d:{items:'Home,home,main\nSearch,search,\nLibrary,library_music,',fab:'edit',flabel:'',h:'360',exp:false,nm:false},f:[['items','label,icon,遷移先id (1行1つ)','m'],['fab','FAB icon (空=なし / 動作=FABの動作)'],['flabel','FAB label (拡張)'],['h','Height px'],['exp','Expandedで開始','b'],['nm','Menuボタンなし','b']],r:n=>`<md-navigation-rail id="${n.id}"${n.exp?' expanded':''}${n.nm?' no-menu':''} style="height:100%">${n.fab?`<md-fab slot="fab" size="small"${n.flabel?` label="${esc(n.flabel)}"`:''}${aa(n)} aria-label="fab"><md-icon slot="icon">${esc(n.fab)}</md-icon></md-fab>`:''}${L(n.items).map(([a,i,c])=>`<md-navigation-rail-item label="${esc(a)}"${c?` data-act="go" data-arg="${esc(c)}"`:''}${c==ctxAct?' active':''}><md-icon slot="inactive-icon">${esc(i)}</md-icon><md-icon slot="active-icon">${esc(i)}</md-icon></md-navigation-rail-item>`).join('')}</md-navigation-rail>`},
+ drawer:{i:'menu_open',n:'Navigation drawer (overlay)',ov:1,c:'ov',noact:1,d:{head:'Matecha',items:'Inbox,inbox,main\n---\nSent,send,detail',std:false,keep:false},f:[['head','Header'],['items','label,icon,遷移先id (---で区切り)','m'],['std','Standard (常時表示)','b'],['keep','Keep open','b']],r:n=>EDIT?pv(n,`<b>Drawer</b> ${esc(n.head)}`,null,L(n.items).map(a=>esc(a[0])).join(' / ')):`<md-navigation-drawer id="${n.id}"${n.std?' standard':''}${n.keep?' keep-open':''}>${n.head?`<md-navigation-drawer-header>${esc(n.head)}</md-navigation-drawer-header>`:''}${L(n.items).map(([a,i,c])=>a=='---'?'<md-navigation-drawer-divider></md-navigation-drawer-divider>':`<md-navigation-drawer-item label="${esc(a)}"${c?` data-act="go" data-arg="${esc(c)}"`:''}${c==ctxAct?' active':''}>${i?`<md-icon slot="icon">${esc(i)}</md-icon>`:''}</md-navigation-drawer-item>`).join('')}</md-navigation-drawer>`},
+ ptr:{i:'refresh',n:'Pull to refresh',k:1,d:{kids:[],h:'240',variant:'expressive'},f:[['h','Height px'],['variant','Type','s:expressive|classic']],r:n=>`<md-pull-to-refresh${at(n)}${EDIT?' data-c':''} variant="${n.variant}" style="width:100%;height:${u(n.h||240)}" onrefresh="setTimeout(()=>this.done(),1200)"><div style="display:flex;flex-direction:column;gap:8px;padding:8px">${KIDS(n)}</div></md-pull-to-refresh>`},
+ fgroup:{i:'view_stream',n:'Text field group',noact:1,d:{items:'First name,text\nLast name,text\nEmail,email'},f:[['items','label,type (1行1つ)','m']],r:n=>`<md-text-field-group id="${n.id}" style="width:100%">${L(n.items).map(([a,t])=>`<md-filled-text-field label="${esc(a)}"${t&&t!='text'?` type="${esc(t)}"`:''}></md-filled-text-field>`).join('')}</md-text-field-group>`},
+ chipset:{i:'sell',n:'Chip set',noact:1,d:{items:'assist,Assist\nfilter,Filter,on\nfilter,Filter 2\ninput,Input\nsuggestion,Suggestion'},f:[['items','kind,label[,on] (assist|filter|input|suggestion)','m']],r:n=>`<md-chip-set id="${n.id}">${L(n.items).map(([k,a,o])=>`<md-${k}-chip label="${esc(a)}"${k=='input'?' removable':''}${o=='on'?' selected':''}></md-${k}-chip>`).join('')}</md-chip-set>`},
+ item:{i:'article',n:'Item',d:{over:'Overline',text:'Headline',sub:'Supporting text',icon:'person',end:'100+'},f:[['over','Overline'],['text','Headline'],['sub','Supporting'],['icon','Start icon'],['end','End text']],r:n=>`<md-item${at(n)} style="width:100%">${n.over?`<div slot="overline">${esc(n.over)}</div>`:''}<div slot="headline">${esc(n.text)}</div>${n.sub?`<div slot="supporting-text">${esc(n.sub)}</div>`:''}${n.icon?`<md-icon slot="start">${esc(n.icon)}</md-icon>`:''}${n.end?`<div slot="end">${esc(n.end)}</div>`:''}</md-item>`},
+ icon:{i:'star',n:'Icon',d:{icon:'star',size:'32',col:'default'},f:[['icon','Icon name'],['size','Size px'],['col','Color','s:default|primary|secondary|tertiary|error|outline']],r:n=>`<div><md-icon${at(n)} style="font-size:${+n.size||24}px;${n.col!='default'?`color:var(--md-sys-color-${n.col})`:''}">${esc(n.icon)}</md-icon></div>`}
+};
+const APPCSS=`*{box-sizing:border-box}html,body{margin:0;height:100%}.act{display:flex;flex-direction:column;gap:12px;padding:16px;height:100%;overflow:auto;background:var(--md-sys-color-surface,#fef7ff);color:var(--md-sys-color-on-surface,#1d1b20);font-family:Inter,system-ui,sans-serif}.act[hidden]{display:none}.act>.w{flex-shrink:0}.w.bleed{margin:-16px -16px 0}.w.bot{margin:auto -16px -16px}.act.fwd{animation:fwd var(--ad,.32s) cubic-bezier(.2,0,0,1)}.act.back{animation:bk var(--ad,.32s) cubic-bezier(.2,0,0,1)}.act[data-an=fade].fwd,.act[data-an=fade].back{animation:a-fade var(--ad,.3s) ease}.act[data-an=up].fwd{animation:a-up2 var(--ad,.35s) cubic-bezier(.2,0,0,1)}.act[data-an=up].back{animation:a-dn var(--ad,.35s) cubic-bezier(.2,0,0,1)}.act[data-an=scale].fwd,.act[data-an=scale].back{animation:a-scale var(--ad,.3s) cubic-bezier(.2,0,0,1)}.act[data-an=none]{animation:none!important}@keyframes a-fade{from{opacity:0}}@keyframes a-up{from{opacity:0;transform:translateY(24px)}}@keyframes a-up2{from{transform:translateY(100%)}}@keyframes a-dn{from{opacity:0;transform:translateY(-24px)}}@keyframes a-left{from{opacity:0;transform:translateX(-24px)}}@keyframes a-right{from{opacity:0;transform:translateX(24px)}}@keyframes a-scale{from{opacity:0;transform:scale(.85)}}@keyframes a-bounce{0%{opacity:0;transform:translateY(40px)}55%{opacity:1;transform:translateY(-10px)}80%{transform:translateY(4px)}100%{transform:none}}@keyframes a-pulse{50%{transform:scale(1.07)}}@keyframes a-shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}@keyframes a-spin{to{transform:rotate(360deg)}}@keyframes fwd{from{opacity:0;transform:translateX(32px)}}@keyframes bk{from{opacity:0;transform:translateX(-32px)}}.w.ov{position:absolute;margin:0}.w.sz>*{width:100%}.w.szh>*{height:100%}`;
+document.querySelector('style').textContent=document.querySelector('style').textContent.replace('APPCSS_PLACEHOLDER',APPCSS);
+const D=[['Phone 360×800',360,800],['Pixel 411×891',411,891],['Small 320×568',320,568],['Foldable 673×841',673,841],['Tablet 800×1280',800,1280],['Tablet 1280×800',1280,800],['Wear 192×192',192,192],['TV 960×540',960,540]];
+const P={seq:1,seed:'#6750a4',dark:false,vars:[],scripts:[],acts:[]};
+let ai=0,sel=null,mode='design',dev=D[0].slice(1);
+const mk=(t,o={})=>{const n={id:'n'+P.seq++,t,x:16,y:16,...structuredClone(T[t].d),...o};T[t].init&&T[t].init(n);return n};
+let EDIT=false,SC=1;
+const u=v=>{v=String(v).trim();return /^\d+(\.\d+)?$/.test(v)?v+'px':v};
+function par(id,arr=A().nodes,p=null){for(const n of arr){if(n.id==id)return p;const r=n.kids&&par(id,n.kids,n);if(r)return r}return null}
+function nodeOpts(){const o=[],w=a=>a.forEach(n=>{if(T[n.t].c!='ov')o.push(n.id+'='+(T[n.t].n+' '+(n.text||n.label||n.icon||n.id)).replace(/[|=]/g,' '));n.kids&&w(n.kids)});w(A().nodes);return o.join('|')}
+const aa=n=>n.act&&n.act!='none'?` data-act="${n.act}" data-arg="${esc(n.arg)}"`:'';
+function loc(id,arr=A().nodes){for(let i=0;i<arr.length;i++){const n=arr[i];if(n.id==id)return{arr,i,n};const r=n.kids&&loc(id,n.kids);if(r)return r}return null}
+const cl=n=>({...n,id:'n'+P.seq++,...(n.kids?{kids:n.kids.map(cl)}:{})});
+function KIDS(n,d='col'){return(n.kids||[]).map(k=>rn(k,d)).join('')}
+function pv(n,t,k,f){return`<div class="ovp"><div>${t}</div>${k==null?'':`<div data-c style="display:flex;flex-direction:column;gap:8px;margin:8px 0;min-height:36px">${k}</div>`}<div style="opacity:.7;margin-top:6px">${f}</div></div>`}
+function bf(){return[['gap','Gap px'],['pad','Padding px'],['al','垂直ぐらい(Row) / 水平(Column)','s:stretch=引き伸ばす|flex-start=上/左|center=中央|flex-end=下/右'],['jc','並べ方(Row=横 / Column=縦)','s:flex-start=左/上|center=中央|space-between=両端揃え|space-around=均等(周囲)|flex-end=右/下'],['bg','Background','s:none|surface-container|primary-container|secondary-container|tertiary-container|error-container'],['rad','Radius px']]}
+function box(n,d){return`<div${at(n)}${EDIT?' data-c':''} style="display:flex;flex-direction:${d=='row'?'row':'column'};gap:${+n.gap||0}px;padding:${+n.pad||0}px;align-items:${n.al};justify-content:${n.jc};${d=='row'&&n.wr?'flex-wrap:wrap;':''}${n.bg!='none'?`background:var(--md-sys-color-${n.bg});`:''}border-radius:${+n.rad||0}px">${KIDS(n,d=='row'&&n.eq?'roweq':d)}</div>`}
+function ovl(){const o=[],w=a=>a.forEach(n=>{if(T[n.t].ov)o.push([n.id,(T[n.t].n+' '+(n.text||n.message||n.head||n.id)).replace(/[|=]/g,' ')]);n.kids&&w(n.kids)});P.acts.forEach(a=>w(a.nodes));return o}
+function wst(n,dir){const eq=dir=='roweq';if(eq)dir='row';const px=v=>/^\d+(\.\d+)?$/.test(v)?v+'px':v,W=String(n.W||'').trim(),H=String(n.H||'').trim();let s='',c='';
+ if(W=='fill'){s+=dir=='row'?'flex:1 1 0;min-width:0;':'width:100%;';c+=' sz'}else if(W=='wrap')s+='width:fit-content;';else if(W){s+='width:'+px(W)+';';c+=' sz'}
+ if(H=='fill'){s+=dir=='row'?'align-self:stretch;':'flex:1 1 0;min-height:0;';c+=' szh'}else if(H){s+='height:'+px(H)+';';c+=' szh'}
+ if(eq&&!n.W){s+='flex:1 1 0;min-width:0;';c+=' sz'}if(dir=='abs')s+=`position:absolute;left:${+n.x||0}px;top:${+n.y||0}px;`;if(n.mg)s+='margin:'+(+n.mg||0)+'px;';for(const[k,p]of[['mt','top'],['mb','bottom'],['ml','left'],['mr','right']])if(n[k])s+='margin-'+p+':'+(+n[k]||0)+'px;';if(n.ha&&n.ha!='none'){if(dir=='row'&&!eq)s+=n.ha=='flex-start'?'margin-right:auto;':n.ha=='center'?'margin-left:auto;margin-right:auto;':'margin-left:auto;';else s+='display:flex;justify-content:'+n.ha+';'}if(!EDIT&&n.an&&n.an!='none')s+=`animation:a-${n.an} ${+n.at||400}ms cubic-bezier(.2,0,0,1) ${+n.ad||0}ms ${n.loop?'infinite':'1'} both;`;if(dir!='abs'){if(n.pin=='bottom')s+='margin-top:auto;';if(n.pin=='sbottom')s+='position:sticky;bottom:0;margin-top:auto;z-index:3;';if(n.pin=='stop')s+='position:sticky;top:0;z-index:3;';if(n.bleed){s+='margin-left:-16px;margin-right:-16px;';if(n.pin=='bottom'||n.pin=='sbottom')s+='margin-bottom:-16px;';if(n.pin=='stop')s+='margin-top:-16px;'}}return[c,s?` style="${s}"`:'']}
+function rn(n,dir='col'){const t=T[n.t];if(t.k&&!n.kids)n.kids=[];const[c,s]=wst(n,dir);return`<div class="w ${t.c||''}${c}"${EDIT?` data-id="${n.id}"`:''}${s}>${ext(n,t.r(n))}</div>`}
+function ext(n,h){const xs=X[n.t];if(!xs)return h;let a='',s='';for(const[k,,,d,f]of xs){const r=f(n[k]??d);if(!r)continue;if(r.startsWith('S:'))s+=r.slice(2)+';';else a+=r}
+ if(!a&&!s)return h;return h.replace(/^<[^>]*>/,m=>{m=m.slice(0,-1)+a+'>';if(!s)return m;return m.includes(' style="')?m.replace(/ style="([^"]*)"/,(x,v)=>` style="${v}${v&&!v.endsWith(';')?';':''}${s}"`):m.slice(0,-1)+` style="${s}">`})}
+const sz='s:xs|s|m|l|xl',Z=v=>v!='m'?` size="${v}"`:'',DIS=v=>v?' disabled':'',tok='s:primary-container|secondary-container|tertiary-container|surface-container-high|error-container';
+const X={
+ text:[['wt','Weight','s:400|500|600|700','400',v=>'S:font-weight:'+v],['col','Color','s:default|primary|secondary|tertiary|error|outline','default',v=>v=='default'?'':'S:color:var(--md-sys-color-'+v+')'],['al','Align','s:left|center|right','left',v=>'S:text-align:'+v],['it','Italic','b',false,v=>v?'S:font-style:italic':'']],
+ button:[['size','Size',sz,'m',Z],['sq','Square shape','b',false,v=>v?' shape="square"':''],['blk','Full width (block)','b',false,v=>v?' block':''],['dis','Disabled','b',false,DIS]],
+ iconbtn:[['size','Size',sz,'m',Z],['dis','Disabled','b',false,DIS]],
+ fab:[['size','Size','s:small|medium|large','medium',v=>` size="${v}"`],['label','Label (拡張FAB)','t','',v=>v?` label="${esc(v)}"`:'']],
+ brandedfab:[['size','Size','s:small|medium|large','medium',v=>` size="${v}"`]],
+ splitbtn:[['size','Size',sz,'m',Z]],
+ field:[['type','Input type','s:text|number|password|email|textarea','text',v=>v=='text'?'':` type="${v}"`],['ph','Placeholder','t','',v=>v?` placeholder="${esc(v)}"`:''],['sup','Supporting text','t','',v=>v?` supporting-text="${esc(v)}"`:''],['req','Required','b',false,v=>v?' required':''],['dis','Disabled','b',false,DIS]],
+ card:[['pad','Padding px','t','16',v=>'S:padding:'+(+v||0)+'px'],['rad','Radius px','t','',v=>v?'S:border-radius:'+(+v||0)+'px':'']],
+ image:[['rad','Radius px','t','24',v=>'S:border-radius:'+(+v||0)+'px'],['bg','Color',tok,'primary-container',v=>'S:background:var(--md-sys-color-'+v+');color:var(--md-sys-color-'+(v.startsWith('surface')?'on-surface':'on-'+v)+')']],
+ slider:[['dis','Disabled','b',false,DIS]],chip:[['dis','Disabled','b',false,DIS]],
+ appbar:[['sub','Subtitle','t','',v=>v?` subtitle="${esc(v)}"`:''],['cen','Centered title','b',false,v=>v?' centered':''],['circ','Circle leading','b',false,v=>v?' circle-leading':''],['sph','Search placeholder (type=search)','t','',v=>v?` search-placeholder="${esc(v)}"`:'']],
+ search:[['size','Size',sz,'m',Z],['bh','Bar height px','t','',v=>v?` bar-height="${+v||56}"`:'']]
+};
+X.button.push(['ta','文字ぞろえ (best effort)','s:center|start|end','center',v=>v=='center'?'':'S:justify-content:'+(v=='start'?'flex-start':'flex-end')+';text-align:'+v],['px','左右padding px','t','',v=>v?'S:padding-inline:'+(+v||0)+'px':'']);
+X.iconbtn.push(['tg','Toggle','b',false,v=>v?' toggle':'']);
+X.navbar=[['hz','Horizontal layout','b',false,v=>v?' horizontal':'']];
+X.card.push(['tt','Tap toggle','b',false,v=>v?' tap-toggle':'']);
+T.webview={i:'public',n:'WebView (iframe)',noact:1,d:{mode:'html',url:'https://example.com',html:'<h3 style="font-family:sans-serif">Hello</h3><button onclick="Matecha.toast(String(Date.now()))">Toast</button>',h:'240',rad:'16',js:true,so:false},f:[['mode','Type','s:html=自前HTML(スクリプト可)|url=ウェブリンク'],['url','URL (Type=ウェブリンク)'],['html','HTML (<script>可。Matecha.go(id) / back() / toast(text) / setVar(name,value) / runJS(code) が使えます)','m'],['h','高さ (240 / 50%)'],['rad','Radius px'],['js','スクリプト許可 (allow-scripts)','b'],['so','親ページへのアクセス許可 (allow-same-origin)','b']],r:n=>{const boot='<script>window.Matecha={go:function(i){parent.postMessage({matecha:"go",id:i},"*")},back:function(){parent.postMessage({matecha:"back"},"*")},toast:function(t){parent.postMessage({matecha:"toast",text:t},"*")},setVar:function(k,v){parent.postMessage({matecha:"set",name:k,value:v},"*")},runJS:function(c){parent.postMessage({matecha:"js",code:c},"*")}}<\/script>';const sb='allow-forms allow-popups allow-modals'+(n.js?' allow-scripts':'')+(n.mode=='url'||n.so?' allow-same-origin':'');const st=`width:100%;height:${u(n.h||240)};border:0;border-radius:${+n.rad||0}px;background:#fff`;
+ if(EDIT&&n.mode=='url')return`<div style="${st};border:1px dashed var(--md-sys-color-outline);display:grid;place-items:center;text-align:center;background:var(--md-sys-color-surface-container)"><div><md-icon>language</md-icon><div style="font-size:12px">${esc(n.url)}<br>(Runタブで表示)</div></div></div>`;
+ return`<iframe id="${n.id}" data-wv="${n.mode}" ${n.mode=='html'?`srcdoc="${esc(boot+n.html)}"`:`src="${esc(n.url)}"`} sandbox="${sb}" style="${st}" loading="lazy"></iframe>`}};
+T.page={i:'tab',n:'Tab page',hide:1,k:1,d:{kids:[],text:'Tab',icon:'circle',gap:'12',pad:'16'},f:[['text','タブ名'],['icon','Icon'],['gap','Gap px'],['pad','Padding px']],noact:1,r:n=>`<div id="${n.id}" class="pg"${EDIT?' data-c':''} style="display:${n._h?'none':'flex'};flex-direction:column;gap:${+n.gap||0}px;padding:${+n.pad||0}px;box-sizing:border-box">${KIDS(n)}</div>`};
+T.tabhost={i:'tab_group',n:'Tab host (タブごとのページ)',k:1,noact:1,d:{kids:[],nav:'bottom',h:'400',cur:0},init:n=>{n.kids=[['Home','home'],['Search','search'],['Profile','person']].map(([t,i])=>mk('page',{text:t,icon:i}))},f:[['nav','タブの位置','s:bottom=下(Navigation bar)|top=上(Tabs)|left=左(Rail)'],['h','高さ (400 / 100%)']],r:n=>tabHost(n)};
+function tabHost(n){const pg=n.kids,cur=EDIT?Math.min(+n.cur||0,pg.length-1):0;pg.forEach((p,i)=>p._h=i!=cur);
+ const nv=p=>EDIT?` data-tab="${n.id}:${p.id}"`:` data-act="tab" data-arg="${n.id}:${p.id}"`,ic=p=>`<md-icon slot="inactive-icon">${esc(p.icon)}</md-icon><md-icon slot="active-icon">${esc(p.icon)}</md-icon>`;let nav;
+ if(n.nav=='top')nav=`<md-tabs class="tn">${pg.map((p,i)=>`<md-primary-tab${nv(p)}${i==cur?' active':''}>${esc(p.text)}</md-primary-tab>`).join('')}</md-tabs>`;
+ else if(n.nav=='left')nav=`<md-navigation-rail class="tn" style="height:100%">${pg.map((p,i)=>`<md-navigation-rail-item label="${esc(p.text)}"${nv(p)}${i==cur?' active':''}>${ic(p)}</md-navigation-rail-item>`).join('')}</md-navigation-rail>`;
+ else nav=`<md-navigation-bar class="tn" style="width:100%">${pg.map((p,i)=>`<md-navigation-tab label="${esc(p.text)}"${nv(p)}${i==cur?' active':''}>${ic(p)}</md-navigation-tab>`).join('')}</md-navigation-bar>`;
+ const body=`<div class="tp" style="flex:1;min-width:0;min-height:0;overflow:auto">${pg.map(p=>rn(p)).join('')}</div>`,hh=u(n.h||400);
+ return n.nav=='left'?`<div id="${n.id}" style="display:flex;height:${hh}">${nav}${body}</div>`:`<div id="${n.id}" style="display:flex;flex-direction:column;height:${hh}">${n.nav=='top'?nav+body:body+nav}</div>`}
+function chain(id,arr=A().nodes,p=[]){for(const n of arr){if(n.id==id)return[...p,n];const r=n.kids&&chain(id,n.kids,[...p,n]);if(r)return r}return[]}
+function reveal(){const c=chain(sel);for(let i=1;i<c.length;i++)if(c[i].t=='page'&&c[i-1].t=='tabhost')c[i-1].cur=c[i-1].kids.indexOf(c[i])}
+Object.assign(T.field,{d:{label:'Label',value:'',variant:'outlined',li:'',ti:'',pre:'',suf:''},f:T.field.f.concat([['li','Leading icon'],['ti','Trailing icon'],['pre','Prefix text'],['suf','Suffix text']]),r:n=>`<md-${n.variant}-text-field${at(n)} label="${esc(n.label)}" value="${esc(n.value)}"${n.pre?` prefix-text="${esc(n.pre)}"`:''}${n.suf?` suffix-text="${esc(n.suf)}"`:''}>${n.li?`<md-icon slot="leading-icon">${esc(n.li)}</md-icon>`:''}${n.ti?`<md-icon slot="trailing-icon">${esc(n.ti)}</md-icon>`:''}</md-${n.variant}-text-field>`});
+Object.assign(T.select,{d:{label:'Fruit',items:'Apple\nBanana\nCherry',variant:'outlined',li:''},f:T.select.f.concat([['li','Leading icon']]),r:n=>`<md-${n.variant}-select${at(n)} label="${esc(n.label)}" style="width:100%">${n.li?`<md-icon slot="leading-icon">${esc(n.li)}</md-icon>`:''}${L(n.items).map(([a],i)=>`<md-select-option value="${esc(a)}"${i?'':' selected'}><div slot="headline">${esc(a)}</div></md-select-option>`).join('')}</md-${n.variant}-select>`});
+{const mi=([a,i,c])=>`<md-menu-item${c?` data-act="go" data-arg="${esc(c)}"`:''}>${i?`<md-icon slot="start">${esc(i)}</md-icon>`:''}<div slot="headline">${esc(a)}</div></md-menu-item>`;T.menu.f=[['anchor','アンカー部品','@n'],['items','label,icon,遷移先id (1行1つ / 先頭 > で直前項目のサブメニュー)','m']];const r0=T.menu.r;T.menu.r=n=>{if(EDIT)return r0(n);const o=[];L(n.items).forEach(l=>{if(l[0][0]=='>'&&o.length)o[o.length-1].s.push([l[0].slice(1).trim(),...l.slice(1)]);else o.push({l,s:[]})});return`<md-menu id="${n.id}"${n.anchor?` anchor="${esc(n.anchor)}"`:''}>${o.map(({l,s})=>s.length?`<md-sub-menu><md-menu-item slot="item"><div slot="headline">${esc(l[0])}</div></md-menu-item><md-menu slot="menu">${s.map(mi).join('')}</md-menu></md-sub-menu>`:mi(l)).join('')}</md-menu>`}}
+T.searchview={i:'manage_search',n:'Search view (overlay)',ov:1,c:'ov',noact:1,d:{trigger:'',items:'Recent: Matecha\nRecent: Compose'},f:[['trigger','開くトリガー部品 (Search bar等)','@n'],['items','候補 (1行1つ)','m']],r:n=>EDIT?pv(n,`<b>Search view</b> trigger: ${esc(n.trigger)||'?'}`,null,L(n.items).map(a=>esc(a[0])).join(' / ')):`<md-search-view id="${n.id}"${n.trigger?` trigger="#${esc(n.trigger)}"`:''}><md-icon slot="leading-icon">search</md-icon><md-list flat>${L(n.items).map(([a])=>`<md-list-item><div slot="headline">${esc(a)}</div></md-list-item>`).join('')}</md-list></md-search-view>`};
+Object.assign(T.spacer,{d:{h:'24',w:''},f:[['h','高さ: 24 / 10% / 5vh'],['w','幅: 空=自動 / 24 / 20%']],r:n=>`<div style="flex:none;height:${u(n.h||0)};${n.w?'width:'+u(n.w)+';':''}"></div>`});
+{const r0=T.rail.r;Object.assign(T.rail,{k:1,f:T.rail.f.concat([['side','コンテンツ領域の位置','s:right|left']]),r:n=>{const rl=r0(n),ct=`<div${EDIT?' data-c':''} style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding:12px;overflow:auto">${KIDS(n)}</div>`;return`<div style="display:flex;height:${u(n.h||360)}">${n.side=='left'?ct+rl:rl+ct}</div>`}});T.rail.d.kids=[];T.rail.d.side='right';T.rail.n='Navigation rail (+横に部品)'}
+Object.assign(T.toolbar,{noact:0,d:{items:'format_bold,\nformat_italic,\nlink,',variant:'vibrant',fab:''},f:[['items','icon,遷移先id (1行1つ)','m'],['variant','Type','s:vibrant|standard|primary|tertiary'],['fab','FAB icon (空=なし / 動作=FAB)']],r:n=>`<div><md-toolbar id="${n.id}" variant="${n.variant||'vibrant'}">${L(n.items??String(n.icons||'').split(',').join('\n')).map(([i,c])=>`<md-icon-button${c?` data-act="go" data-arg="${esc(c)}"`:''}><md-icon>${esc(i)}</md-icon></md-icon-button>`).join('')}${n.fab?`<md-fab slot="fab" size="small"${aa(n)} aria-label="fab"><md-icon slot="icon">${esc(n.fab)}</md-icon></md-fab>`:''}</md-toolbar></div>`});
+X.slider.push(['size','Size','s:m|xxs|xs|s|l|xl','m',v=>v=='m'?'':` size="${v}"`],['lab','Labeled','b',false,v=>v?' labeled':''],['wavy','Wavy','b',false,v=>v?' wavy':''],['cen','Centered','b',false,v=>v?' centered':''],['tk','Ticks (step 10)','b',false,v=>v?' ticks step="10"':'']);
+const A=()=>P.acts[ai],cur=()=>loc(sel)?.n;
+function seedInit(){P.acts=[{id:'main',name:'MainActivity',nodes:[mk('appbar',{text:'Home'}),mk('card',{text:'Welcome',body:'ここにUIをドラッグして配置'}),mk('button',{text:'詳細へ',icon:'arrow_forward',act:'go',arg:'detail'}),mk('navbar')]},{id:'detail',name:'DetailActivity',nodes:[mk('appbar',{text:'Detail',back:true}),mk('text',{text:'Detail screen'}),mk('button',{text:'Toast',variant:'tonal',act:'toast',arg:'Hello Matecha'})]}];}
+seedInit();
+const nodesHTML=(a,edit)=>{ctxAct=a.id;EDIT=edit;return a.nodes.map(n=>rn(n)).join('')};const _unused=(a,edit)=>{return a.nodes.map(n=>`<div class="w ${T[n.t].c||''}"${edit?` data-id="${n.id}"`:''}>${T[n.t].r(n)}</div>`).join('')};
+const RUNTIME=`window.Activity={stack:[],current:'__F__',go(id,b){const n=document.getElementById('act-'+id);if(!n)return;const c=document.getElementById('act-'+this.current);if(c){c.hidden=true;if(!b)this.stack.push(this.current)}n.hidden=false;n.className='act '+(b?'back':'fwd');this.current=id;document.dispatchEvent(new CustomEvent('activitychange',{detail:{id}}))},back(){if(this.stack.length)this.go(this.stack.pop(),true)}};
+let dk=__D__;MateCha.setSeed('__S__','expressive');MateCha.setDark(dk);
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,g=t.dataset.arg;if(a=='go')Activity.go(g);else if(a=='back')Activity.back();else if(a=='toast')MateCha.toast(g);else if(a=='dark')MateCha.setDark(dk=!dk);else if(a=='open'){const o=document.getElementById(g);o&&(o.show?o.show():o.open=true)}else if(a=='close'){const o=g?document.getElementById(g):t.closest('md-dialog,md-bottom-sheet,md-top-popup');o&&(o.close?o.close():o.open=false)}else if(a=='tab'){TAB(g)}else if(a=='link'){window.open(g,'_blank','noopener')}else if(a=='js'){jsrun(g,t)}});
+function jsrun(c,el){window.__el=el;var s=document.createElement('script');s.textContent='try{(function(el){'+c+String.fromCharCode(10)+'}).call(window,window.__el)}catch(e){console.error(e);MateCha.toast("JS error: "+e.message)}';document.head.appendChild(s);s.remove()}
+window.addEventListener('message',function(e){var d=e.data;if(!d||!d.matecha)return;var ok=[].some.call(document.querySelectorAll('iframe[data-wv=html]'),function(f){return f.contentWindow===e.source});if(!ok)return;if(d.matecha=='go')Activity.go(d.id);else if(d.matecha=='back')Activity.back();else if(d.matecha=='toast')MateCha.toast(String(d.text));else if(d.matecha=='set')V[d.name]=d.value;else if(d.matecha=='js')jsrun(String(d.code),null)});
+function TAB(g){var s=g.split(':'),H=document.getElementById(s[0]),t=H&&H.querySelector(':scope > .tp');if(t)[].forEach.call(t.children,function(w){var p=w.firstElementChild;p.style.display=p.id==s[1]?'flex':'none'})}
+window.Tabs={show:function(h,p){TAB(h+':'+p)}};
+const S0=JSON.parse(document.getElementById('studio-project').textContent),SC=S0.scripts||[],V={};(S0.vars||[]).forEach(function(x){V[x.name]=x.init});window.Vars=V;
+const gv=function(s){return String(s==null?'':s).replace(/[{]@([a-z0-9]+)[}]/g,function(m,i){var e=document.getElementById(i);return e?(e.value!=null?e.value:e.textContent):''}).replace(/[{]([^}]+)[}]/g,function(m,k){return V[k]!=null?V[k]:''})};
+function cmp(a,o,b){var x=gv(a),y=gv(b),nx=+x,ny=+y,nm=x!==''&&y!==''&&!isNaN(nx)&&!isNaN(ny);return o=='='?x==y:o=='≠'?x!=y:o=='>'?(nm?nx>ny:x>y):o=='<'?(nm?nx<ny:x<y):x.indexOf(y)>=0}
+function dlg(t,m,ask){return new Promise(function(res){var d=document.createElement('md-dialog'),f;d.innerHTML='<div slot="headline"></div><div slot="content"></div><div slot="actions"></div>';d.children[0].textContent=t;d.children[1].textContent=m;if(ask){f=document.createElement('md-outlined-text-field');f.style.cssText='width:100%;margin-top:12px';d.children[1].appendChild(f)}
+ function bt(l,v){var b=document.createElement('md-text-button');b.textContent=l;b.onclick=function(){res(v?(f?f.value:true):null);d.close()};d.children[2].appendChild(b)}
+ if(ask)bt('キャンセル',0);bt('OK',1);d.addEventListener('close',function(){res(null);setTimeout(function(){d.remove()},500)});document.body.appendChild(d);d.show()})}
+function st(id,v){var e=document.getElementById(id);if(!e)return;if(e.localName.indexOf('text-field')>0)e.value=v;else if(e.hasAttribute('headline'))e.setAttribute('headline',v);else if(e.hasAttribute('label'))e.setAttribute('label',v);else{var t=[].filter.call(e.childNodes,function(x){return x.nodeType==3&&x.nodeValue.trim()});if(t.length)t[t.length-1].nodeValue=v;else e.textContent=v}}
+async function run(bs){for(const b of bs||[]){const a=b.a||{};switch(b.t){case'set':V[a.v]=gv(a.x);break;case'chg':V[a.v]=(+V[a.v]||0)+(+gv(a.x)||0);break;case'toast':MateCha.toast(gv(a.x));break;case'go':Activity.go(a.x);break;case'back':Activity.back();break;case'alert':await dlg(gv(a.title),gv(a.x),0);break;
+ case'ask':{const r=await dlg(gv(a.title),gv(a.x),1);if(r!=null&&r!==false){V[a.v]=r;await run(b.c)}break}
+ case'if':await run(cmp(a.l,a.o,a.r)?b.c:b.e);break;case'rep':for(let i=0;i<(+gv(a.x)||0);i++)await run(b.c);break;case'wait':await new Promise(function(r){setTimeout(r,+gv(a.x)||0)});break;case'text':st(a.n,gv(a.x));break;
+ case'vis':{const e=document.getElementById(a.n),w=e&&e.closest('.w');if(w)w.style.display=a.x=='hide'?'none':'';break}
+ case'open':{const e=document.getElementById(a.n);if(e){if(a.x=='close')e.close?e.close():e.open=false;else e.show?e.show():e.open=true}break}
+ case'link':{const w=a.n&&document.getElementById(a.n);if(w)w.src=gv(a.x);else window.open(gv(a.x),'_blank','noopener');break}case'js':jsrun(a.x,null);break;case'dark':MateCha.setDark(dk=!dk);break;case'seed':MateCha.setSeed(gv(a.x),'expressive');break}}}
+document.addEventListener('click',function(e){SC.forEach(function(s){if(s.k=='click'){var el=document.getElementById(s.n);if(el&&el.contains(e.target))run(s.b)}})});
+document.addEventListener('input',function(e){SC.forEach(function(s){if(s.k=='change'){var el=document.getElementById(s.n);if(el&&el.contains(e.target))run(s.b)}})});
+document.addEventListener('activitychange',function(e){SC.forEach(function(s){if(s.k=='enter'&&s.n==e.detail.id)run(s.b)})});
+SC.forEach(function(s){if(s.k=='start'||(s.k=='enter'&&s.n==Activity.current))run(s.b)});`;
+function exp(){
+ const body=P.acts.map((a,i)=>`<section class="act" id="act-${a.id}" data-an="${a.anim||'slide'}"${a.ad?` style="--ad:${+a.ad}ms"`:''}${i?' hidden':''}>\n${nodesHTML(a,false).replace(/<\/div><div class="w/g,'</div>\n<div class="w')}\n</section>`).join('\n');
+ return `<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matecha App</title>
+<script type="module" src="${CDN}"><\/script>
+<style>${APPCSS}</style>
+</head>
+<body>
+${body}
+<!-- Studio project data (re-importable). Elements have ids (n1, n2...) and data-act/data-arg attributes. -->
+<script type="application/json" id="studio-project">${JSON.stringify(P,(k,v)=>k=='_h'?undefined:v).replace(/</g,'\\u003c')}<\/script>
+<script type="module">
+/* runtime: Activity.go(id) / Activity.back() / event 'activitychange' */
+${RUNTIME.replace('__F__',P.acts[0].id).replace('__D__',P.dark).replace('__S__',P.seed)}
+<\/script>
+<script type="module">
+/* ==== YOUR LOGIC HERE (e.g. document.getElementById('n3').addEventListener('click', ...)) ==== */
+<\/script>
+</body>
+</html>`;}
+/* ---------- rendering ---------- */
+function fitStage(){const st=$('#stage'),[w,h]=dev,s=SC=Math.min(1,(st.clientWidth-48)/w,(st.clientHeight-48)/h);const f=$('.frame');if(!f)return;f.style.transform=`scale(${s})`;f.parentElement.style.cssText=`width:${w*s}px;height:${h*s}px;flex:none`}
+function renderStage(){const st=$('#stage'),[w,h]=dev;if(mode=='design')reveal();
+ if(mode=='code'){st.style.cssText='padding:0;display:block';st.innerHTML=`<textarea class="code" readonly></textarea>`;st.firstChild.value=exp();return}
+ st.style.cssText='';
+ const inner=mode=='run'?`<iframe></iframe>`:`<div class="act edit">${nodesHTML(A(),true)}</div>`;
+ st.innerHTML=`<div><div class="frame ${mode}" style="width:${w}px;height:${h}px">${inner}</div></div>`;
+ if(mode=='run')st.querySelector('iframe').srcdoc=exp();
+ else{const el=st.querySelector(`[data-id="${sel}"]`);if(el){el.classList.add('sel-n');if(el.parentElement.hasAttribute('data-abs'))el.insertAdjacentHTML('beforeend','<i class="rz"></i>')}}
+ fitStage();}
+function renderTreeOld(){$('#tree').innerHTML=A().nodes.map(n=>`<div class="ti${n.id==sel?' sel':''}" data-id="${n.id}"><md-icon>${T[n.t].i}</md-icon>${T[n.t].n}<small>${esc(n.text||n.label||n.icon||'')}</small></div>`).join('')||'<h3>(empty)</h3>'}
+function renderActs(){$('#acts').innerHTML=P.acts.map((a,i)=>`<div class="at${i==ai?' on':''}" data-i="${i}">${i?'':'▶ '}${esc(a.name)}</div>`).join('')+`<md-icon-button data-do="addact" title="Activity追加"><md-icon>add</md-icon></md-icon-button>`}
+const fld=(k,l,v,kind='t')=>{if(kind=='b')return`<label style="display:flex;justify-content:space-between;align-items:center">${l}<md-switch data-k="${k}"${v?' selected':''}></md-switch></label>`;
+ if(kind[0]=='s')return`<md-outlined-select data-k="${k}" label="${l}">${kind.slice(2).split('|').map(o=>{const[val,lab]=o.split('=');return`<md-select-option value="${esc(val)}"${val==v?' selected':''}><div slot="headline">${esc(lab||val)}</div></md-select-option>`}).join('')}</md-outlined-select>`;
+ const ic=/^(icon|li|ti|fab)$/.test(k);return`<md-outlined-text-field data-k="${k}" label="${l}" value="${esc(v)}"${ic?' data-ico="1"':''}${kind=='m'?' type="textarea" rows="4"':''}>${ic?`<md-icon slot="leading-icon">${esc(v)}</md-icon>`:''}</md-outlined-text-field>`};
+function renderProps(){const n=cur(),p=$('#props');
+ if(!n){const a=A();p.innerHTML=`<h3>Activity</h3>${fld('@name','Name',a.name)}${fld('@anim','遷移アニメ(この画面に入る時)','s:slide=スライド|fade=フェード|up=下から上|scale=ズーム|none=なし',a.anim||'slide')}${fld('@ad','アニメ時間 ms',a.ad||'')}<div style="font-size:13px;opacity:.7">id: <code>${a.id}</code>${ai?'':' (launcher)'}</div><div class="row">${ai?'<md-tonal-button data-do="launch">':''}${ai?'':''}</div><div class="row"><md-outlined-button data-do="launch"${ai?'':' disabled'}>Launcherにする</md-outlined-button><md-text-button data-do="delact"${P.acts.length>1?'':' disabled'}>削除</md-text-button></div><h3>Theme</h3><div style="font-size:13px;opacity:.7">右上でSeed色/ダークを変更。パレットからキャンバスへドラッグ。ノードを選ぶと属性・動作を編集できます。</div>`;return}
+ const t=T[n.t],xs=X[n.t]||[];let h=`<h3>${t.n} <small style="opacity:.6">#${n.id}</small></h3>`+t.f.concat(xs).map(([k,l,kind,d])=>fld(k,l,n[k]??d,kind=='@n'?'s:=(なし)|'+nodeOpts():kind)).join('')+`<h3>サイズ・余白</h3>`+fld('W','幅: fill / wrap / 120 / 50%',n.W||'')+fld('H','高さ: fill / 120',n.H||'')+fld('mg','Margin 全方向 px',n.mg||'')+fld('mt','Margin 上 px',n.mt||'')+fld('mb','Margin 下 px',n.mb||'')+fld('ml','Margin 左 px',n.ml||'')+fld('mr','Margin 右 px',n.mr||'')+fld('ha','横ぞろえ (親の中での配置)','s:none=既定|flex-start=左|center=中央|flex-end=右',n.ha||'none')+fld('pin','固定 / 張り付き','s:none=なし|bottom=下に寄せる|sbottom=下に固定(sticky)|stop=上に固定(sticky)',n.pin||'none')+fld('bleed','左右いっぱい(余白を打ち消し)','b',n.bleed)+`<h3>アニメーション</h3>`+fld('an','入場アニメ','s:none=なし|fade=フェード|up=下から|left=左から|right=右から|scale=ズーム|bounce=バウンス|pulse=パルス|shake=シェイク|spin=回転',n.an||'none')+fld('at','時間 ms',n.at||'')+fld('ad','遅延 ms',n.ad||'')+fld('loop','ループ','b',n.loop)+(par(n.id)?.t=='frame'?fld('x','X px',n.x)+fld('y','Y px',n.y):'');
+ if(!t.noact){h+=`<h3>動作 (onClick)</h3>`+fld('act','Action',n.act||'none','s:none=なし|go=画面遷移|back=戻る|toast=Toast|dark=ダーク切替|open=オーバーレイを開く|close=オーバーレイを閉じる|link=リンクを開く (OpenLink)|js=カスタムJS (RunCustomJS)');
+  if(n.act=='go')h+=fld('arg','Target activity',n.arg,'s:'+P.acts.map(a=>a.id+'='+a.name).join('|'));
+  else if(n.act=='link')h+=fld('arg','URL',n.arg);else if(n.act=='js')h+=fld('arg','JavaScript (el=押した部品 / Activity / MateCha / Vars が使えます)',n.arg,'m');else if(n.act=='toast')h+=fld('arg','Message',n.arg);else if(n.act=='open'||n.act=='close')h+=fld('arg','Overlay',n.arg,'s:'+(n.act=='close'?'=自動(親)|':'')+ovl().map(o=>o.join('=')).join('|'))}
+ h+=`<div class="row"><md-icon-button data-do="up"><md-icon>arrow_upward</md-icon></md-icon-button><md-icon-button data-do="dn"><md-icon>arrow_downward</md-icon></md-icon-button><md-icon-button data-do="dup"><md-icon>content_copy</md-icon></md-icon-button><md-icon-button data-do="del"><md-icon>delete</md-icon></md-icon-button><md-outlined-button data-do="wrap">行にまとめる</md-outlined-button><md-outlined-button data-do="out">親から出す</md-outlined-button>${n.t=='tabhost'||n.t=='page'?'<md-outlined-button data-do="addtab">タブ追加</md-outlined-button>':''}</div>`;
+ p.innerHTML=h}
+const all=()=>{renderActs();renderTree();renderStage();renderProps()};
+const part=()=>{renderTree();renderStage();renderActs()};
+/* ---------- events ---------- */
+$('#pal').innerHTML=Object.entries(T).filter(([k,t])=>!t.hide).map(([k,t])=>`<div class="tile" draggable="true" data-t="${k}"><md-icon>${t.i}</md-icon>${t.n}</div>`).join('');
+const ins=(n,i)=>{const a=A().nodes;a.splice(i??a.length,0,n);sel=n.id};
+$('#pal').onclick=e=>{const t=e.target.closest('.tile');if(t){ins(mk(t.dataset.t));mode='design';setMode('design');all()}};
+document.addEventListener('dragstart',e=>{const t=e.target.closest?.('.tile'),w=e.target.closest?.('.w');e.dataTransfer?.setData('text/plain',t?'new:'+t.dataset.t:w?'mv:'+w.dataset.id:'')});
+document.addEventListener('mousedown',e=>{const w=e.target.closest?.('.edit .w');if(w)w.draggable=true});
+let dropT=null;
+$('#stage').ondragover=e=>{if(mode!='design')return;e.preventDefault();document.querySelectorAll('.drop-a,.drop-b').forEach(x=>x.classList.remove('drop-a','drop-b'));const w=e.target.closest('.w');if(w){const r=w.getBoundingClientRect();dropT=[w.dataset.id,e.clientY>r.top+r.height/2];w.classList.add(dropT[1]?'drop-a':'drop-b')}else dropT=null};
+$('#stage').ondrop=e=>{e.preventDefault();const d=e.dataTransfer.getData('text/plain'),a=A().nodes;let i=a.length;if(dropT){i=a.findIndex(n=>n.id==dropT[0])+(dropT[1]?1:0)}
+ if(d.startsWith('new:'))ins(mk(d.slice(4)),i);else if(d.startsWith('mv:')){const f=a.findIndex(n=>n.id==d.slice(3));if(f<0)return;const[n]=a.splice(f,1);if(f<i)i--;a.splice(i,0,n);sel=n.id}dropT=null;all()};
+$('#stage').onclick=e=>{if(mode!='design')return;const w=e.target.closest('.w');sel=w?w.dataset.id:null;renderTree();renderStage();renderProps()};
+$('#tree').onclick=e=>{const t=e.target.closest('.ti');if(t){sel=t.dataset.id;renderTree();renderStage();renderProps()}};
+$('#acts').onclick=e=>{const t=e.target.closest('.at'),b=e.target.closest('[data-do=addact]');
+ if(t){ai=+t.dataset.i;sel=null;all()}else if(b){const id='a'+P.seq++;P.acts.push({id,name:'Activity'+P.acts.length,nodes:[mk('appbar',{text:'New',back:true})]});ai=P.acts.length-1;sel=null;all()}};
+const upd=e=>{const t=e.target,k=t.dataset?.k;if(!k)return;const v=t.localName=='md-switch'?t.selected:t.value;
+ if(t.dataset.ico){const q=t.querySelector('md-icon');q&&(q.textContent=v)}if(k[0]=='@'){A()[k.slice(1)]=v;renderActs();return}const n=cur();if(!n)return;n[k]=v;part();if(k=='act'&&e.type=='change')renderProps()};
+$('#props').addEventListener('input',upd);$('#props').addEventListener('change',upd);
+$('#props').onclick=e=>{const b=e.target.closest('[data-do]');if(!b)return;const d=b.dataset.do,a=A().nodes,i=a.findIndex(n=>n.id==sel);
+ if(d=='up'&&i>0)[a[i-1],a[i]]=[a[i],a[i-1]];if(d=='dn'&&i<a.length-1)[a[i+1],a[i]]=[a[i],a[i+1]];
+ if(d=='dup'&&i>=0)ins({...a[i],id:'n'+P.seq++},i+1);if(d=='del'&&i>=0){a.splice(i,1);sel=null}
+ if(d=='launch'){const[x]=P.acts.splice(ai,1);P.acts.unshift(x);ai=0}
+ if(d=='delact'){P.acts.splice(ai,1);ai=0;sel=null}all()};
+function setMode(m){mode=m;for(const k of['design','run','code'])$('#m-'+k).outerHTML=`<md-${k==m?'filled-tonal':'text'}-button id="m-${k}">${k[0].toUpperCase()+k.slice(1)}</md-${k==m?'filled-tonal':'text'}-button>`;for(const k of['design','run','code'])$('#m-'+k).onclick=()=>{setMode(k);renderStage()}}
+setMode('design');
+$('#dev').innerHTML=D.map((d,i)=>`<md-select-option value="${i}"${i?'':' selected'}><div slot="headline">${d[0]}</div></md-select-option>`).join('');
+$('#dev').addEventListener('change',e=>{dev=D[+e.target.value].slice(1);renderStage()});
+$('#rot').onclick=()=>{dev=[dev[1],dev[0]];renderStage()};
+$('#seed').oninput=e=>{P.seed=e.target.value;MateCha.setSeed(P.seed,'expressive')};
+$('#dk').onclick=()=>{P.dark=!P.dark;MateCha.setDark(P.dark);document.documentElement.dataset.theme=P.dark?'dark':'light';if(mode=='run')renderStage()};
+$('#cp').onclick=async()=>{try{await navigator.clipboard.writeText(exp());MateCha.toast('HTMLをコピーしました')}catch{setMode('code');renderStage();MateCha.toast('Codeタブから全選択してコピーしてください')}};
+$('#ex').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([exp()],{type:'text/html'}));a.download='matecha-app.html';a.click();MateCha.toast('Exportしました')}catch{}};
+$('#imp').onclick=()=>$('#file').click();
+$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;const j=new DOMParser().parseFromString(await f.text(),'text/html').getElementById('studio-project');if(!j)return MateCha.toast('studio-projectが見つかりません');Object.assign(P,JSON.parse(j.textContent));ai=0;sel=null;$('#seed').value=P.seed;MateCha.setSeed(P.seed,'expressive');all()};
+addEventListener('resize',fitStage);
+const tr=(a,d)=>a.map(n=>`<div class="ti${n.id==sel?' sel':''}" data-id="${n.id}" style="padding-left:${12+d*14}px"><md-icon>${T[n.t].i}</md-icon>${T[n.t].n}<small>${esc(n.text||n.label||n.icon||'')}</small></div>${n.kids?tr(n.kids,d+1):''}`).join('');
+function renderTree(){$('#tree').innerHTML=tr(A().nodes,0)||'<h3>(empty)</h3>'}
+const put=(n,a,i)=>{a.splice(i??a.length,0,n);sel=n.id};
+const tgt=()=>{let r=loc(sel);if(r&&r.n.t=='tabhost'){const pg=r.n.kids[Math.min(r.n.cur||0,r.n.kids.length-1)];r={n:pg,arr:r.n.kids,i:0}}return r?(T[r.n.t].k?{a:r.n.kids,i:r.n.kids.length}:{a:r.arr,i:r.i+1}):{a:A().nodes,i:A().nodes.length}};
+$('#pal').onclick=e=>{const t=e.target.closest('.tile');if(t){const nn=mk(t.dataset.t);if($('#same').selected&&sel&&loc(sel)&&par(sel)?.t!='frame')addSame(nn);else{const g=tgt();put(nn,g.a,g.i)}setMode('design');all()}};
+let dt=null;const CL=['drop-a','drop-b','drop-l','drop-r','drop-i'];
+$('#stage').ondragover=e=>{if(mode!='design')return;e.preventDefault();document.querySelectorAll('.'+CL.join(',.')).forEach(x=>x.classList.remove(...CL));const w=e.target.closest('.w');if(!w){dt=null;return}const pa=w.parentElement;if(pa.hasAttribute('data-abs')){const fw=pa.closest('.w');dt=[fw.dataset.id,'in'];fw.classList.add('drop-i');return}const r=loc(w.dataset.id),row=w.parentElement.style.flexDirection=='row',b=w.getBoundingClientRect(),f=row?(e.clientX-b.left)/b.width:(e.clientY-b.top)/b.height;
+ const fx=(e.clientX-b.left)/b.width;if(r&&r.n.t=='page'){dt=[w.dataset.id,'in'];w.classList.add('drop-i')}else if(!row&&(fx<.18||fx>.82)){dt=[w.dataset.id,fx<.5?'l':'r'];w.classList.add(fx<.5?'drop-l':'drop-r')}else if(r&&T[r.n.t].k&&f>.25&&f<.75){dt=[w.dataset.id,'in'];w.classList.add('drop-i')}else{dt=[w.dataset.id,f>.5];w.classList.add(f>.5?(row?'drop-r':'drop-a'):(row?'drop-l':'drop-b'))}};
+$('#stage').ondrop=e=>{e.preventDefault();const d=e.dataTransfer.getData('text/plain');let a=A().nodes,i=a.length;
+ if(dt&&(dt[1]=='l'||dt[1]=='r')){side(d,dt);dt=null;all();return}if(dt){const r=loc(dt[0]);if(r){if(dt[1]=='in'){a=r.n.t=='tabhost'?r.n.kids[Math.min(r.n.cur||0,r.n.kids.length-1)].kids:r.n.kids;i=a.length}else{a=r.arr;i=r.i+(dt[1]?1:0)}}}
+ if(d.startsWith('new:')){const nn=mk(d.slice(4));if(dt&&dt[1]=='in'&&loc(dt[0]).n.t=='frame'){const rc=document.querySelector(`[data-id="${dt[0]}"] [data-abs]`).getBoundingClientRect();nn.x=Math.max(0,Math.round((e.clientX-rc.left)/SC/4)*4);nn.y=Math.max(0,Math.round((e.clientY-rc.top)/SC/4)*4)}put(nn,a,i)}
+ else if(d.startsWith('mv:')){const id=d.slice(3),s=loc(id);if(s&&!(dt&&(dt[0]==id||(s.n.kids&&loc(dt[0],s.n.kids))))){s.arr.splice(s.i,1);if(s.arr==a&&s.i<i)i--;a.splice(i,0,s.n);sel=id}}
+ dt=null;all()};
+$('#props').onclick=e=>{const b=e.target.closest('[data-do]');if(!b)return;const d=b.dataset.do,r=loc(sel);
+ if(d=='launch'){const[x]=P.acts.splice(ai,1);P.acts.unshift(x);ai=0}else if(d=='delact'){P.acts.splice(ai,1);ai=0;sel=null}
+ else if(r){const{arr:a,i}=r;if(d=='up'&&i>0)[a[i-1],a[i]]=[a[i],a[i-1]];if(d=='dn'&&i<a.length-1)[a[i+1],a[i]]=[a[i],a[i+1]];if(d=='dup')put(cl(a[i]),a,i+1);if(d=='del'){a.splice(i,1);sel=null}if(d=='wrap'){const rw=mk('row');rw.kids=[a[i]];a.splice(i,1,rw);sel=rw.id}if(d=='addtab'){const hn=r.n.t=='tabhost'?r.n:par(sel);if(hn&&hn.t=='tabhost'){const pg=mk('page',{text:'Tab '+(hn.kids.length+1),icon:'circle'});hn.kids.push(pg);hn.cur=hn.kids.length-1;sel=pg.id}}if(d=='out'){const p=par(sel),pr=p&&loc(p.id);if(pr){const[nn]=a.splice(i,1);pr.arr.splice(pr.i+1,0,nn)}}}
+ all()};
+$('#props').addEventListener('change',e=>{if(e.target.dataset?.k!='act')return;const n=cur();if(n){n.arg=n.act=='link'?'https://':n.act=='js'?'MateCha.toast("Hello");':n.act=='go'?P.acts[0].id:n.act=='open'?(ovl()[0]||[''])[0]:'';renderProps();part()}});
+$('#stage').addEventListener('pointerdown',e=>{if(mode!='design')return;const rz=e.target.closest('.rz'),w=e.target.closest('.w');if(!w||!w.parentElement.hasAttribute('data-abs'))return;const r=loc(w.dataset.id);if(!r)return;e.preventDefault();const n=r.n,x0=e.clientX,y0=e.clientY,ox=+n.x||0,oy=+n.y||0,b=w.getBoundingClientRect(),ow=b.width/SC,oh=b.height/SC,sn=v=>Math.round(v/4)*4;let mv=0;
+ const m=ev=>{mv=1;const dx=(ev.clientX-x0)/SC,dy=(ev.clientY-y0)/SC;if(rz){n.W=''+Math.max(16,sn(ow+dx));n.H=''+Math.max(16,sn(oh+dy));w.style.width=n.W+'px';w.style.height=n.H+'px'}else{n.x=Math.max(0,sn(ox+dx));n.y=Math.max(0,sn(oy+dy));w.style.left=n.x+'px';w.style.top=n.y+'px'}};
+ const u=()=>{removeEventListener('pointermove',m);removeEventListener('pointerup',u);if(mv){sel=n.id;renderTree();renderStage();renderProps()}};
+ addEventListener('pointermove',m);addEventListener('pointerup',u)});
+function side(d,dt){const left=dt[1]=='l';let nn;if(d.startsWith('new:'))nn=mk(d.slice(4));else if(d.startsWith('mv:')){const id=d.slice(3),s=loc(id);if(!s||id==dt[0]||(s.n.kids&&loc(dt[0],s.n.kids)))return;s.arr.splice(s.i,1);nn=s.n}else return;const r=loc(dt[0]);if(!r)return;const rw=mk('row');rw.kids=left?[nn,r.n]:[r.n,nn];r.arr.splice(r.i,1,rw);sel=nn.id}
+function addSame(nn){const r=loc(sel),p=par(sel);if(r.n.t=='row')r.n.kids.push(nn);else if(p&&p.t=='row')r.arr.splice(r.i+1,0,nn);else{const rw=mk('row');rw.kids=[r.n,nn];r.arr.splice(r.i,1,rw)}sel=nn.id}
+const mt={slot:null},CAT={set:'v',chg:'v',toast:'m',alert:'m',ask:'m',if:'c',rep:'c',wait:'c',text:'u',vis:'u',open:'u',go:'m',back:'m',dark:'m',seed:'m'};
+const BS={set:{nm:'変数 = 値',l:['変数',['v','v'],'=',['x','t','値 {変数}']]},chg:{nm:'変数を増やす',l:['変数',['v','v'],'を',['x','t','数'],'だけ増やす']},toast:{nm:'トースト',l:['トースト',['x','t','メッセージ {変数}']]},alert:{nm:'お知らせダイアログ',l:['お知らせダイアログ',['title','t','タイトル'],['x','t','本文']]},ask:{nm:'ダイアログで質問',l:['ダイアログで質問',['title','t','タイトル'],['x','t','説明'],'→入力を',['v','v'],'へ。OKなら↓'],c:1},if:{nm:'もし】なら',l:['もし',['l','t','{変数}'],['o','o'],['r','t','値'],'なら'],c:1,e:1},rep:{nm:'くり返し',l:[['x','t','回数'],'回くり返す'],c:1},wait:{nm:'待つ',l:[['x','t','1000'],'ms待つ']},text:{nm:'テキスト変更',l:[['n','n'],'のテキストを',['x','t','{変数}'],'に']},vis:{nm:'表示/非表示',l:[['n','n'],'を',['x','s:show=表示|hide=非表示']]},open:{nm:'オーバーレイ',l:['オーバーレイ',['n','ov'],'を',['x','s:open=開く|close=閉じる']]},go:{nm:'画面移動',l:['画面移動',['x','a']]},back:{nm:'戻る',l:['戻る']},dark:{nm:'ダーク切替',l:['ダーク切替']},seed:{nm:'テーマ色',l:['テーマ色',['x','t','#6750a4']]}};
+BS.if.nm='もし〇なら';
+BS.link={nm:'リンクを開く',l:['リンクを開く',['x','t','https://'],'→',['n','wv']]};BS.js={nm:'カスタムJS実行',l:['JS実行',['x','t','MateCha.toast(1)']]};CAT.link='m';CAT.js='m';
+const KS=[['start','アプリ起動時'],['enter','画面が開いた時'],['click','部品クリック時'],['change','入力が変わった時']];
+const nl=(f,ty)=>{const o=[],w=a=>a.forEach(n=>{if(ty?n.t==ty:(!f||T[n.t].ov))o.push([n.id,T[n.t].n.replace(/ \(.*/,'')+' '+(n.text||n.label||n.icon||'')+' #'+n.id]);n.kids&&w(n.kids)});P.acts.forEach(a=>w(a.nodes));return o};
+const optsOf=k=>k=='v'?P.vars.map(x=>[x.name,x.name]):k=='a'?P.acts.map(x=>[x.id,x.name]):k=='n'?nl():k=='ov'?nl(1):k=='wv'?[['','新しいタブ'],...nl(0,'webview')]:k=='o'?['=','≠','>','<','含む'].map(x=>[x,x]):k.slice(2).split('|').map(x=>x.split('='));
+const sel2=(o,v,at)=>`<select class="bi" ${at}>${o.map(([a,l])=>`<option value="${esc(a)}"${a==v?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
+function bloc(id,l){for(let i=0;i<l.length;i++){const b=l[i];if(b.id==id)return{l,i,b};for(const k of['c','e']){const r=b[k]&&bloc(id,b[k]);if(r)return r}}return null}
+const bl=id=>{for(const s of P.scripts){const r=bloc(id,s.b);if(r)return r}return null};
+function slotList(key){const[id,k]=String(key).split(':');if(k=='root')return P.scripts.find(s=>s.id==id)?.b;const r=bl(id);return r&&(r.b[k]||(r.b[k]=[]))}
+const slotH=(key,l)=>`<div class="slot${mt.slot==key?' on':''}" data-slot="${key}">${l.map(bH).join('')||'<small>ここに追加 (クリックで選択)</small>'}</div>`;
+function bH(b){const d=BS[b.t],a=b.a||{};return`<div class="blk" data-cat="${CAT[b.t]}" data-b="${b.id}"><div class="br">${d.l.map(p=>typeof p=='string'?`<span>${p}</span>`:p[1]=='t'?`<input class="bi" data-f="${p[0]}" value="${esc(a[p[0]]??'')}" placeholder="${esc(p[2]||'')}">`:sel2(optsOf(p[1]),a[p[0]],`data-f="${p[0]}"`)).join('')}<span class="bx"><i data-bd="up">▲</i><i data-bd="dn">▼</i><i data-bd="del">✕</i></span></div>${d.c?slotH(b.id+':c',b.c||[]):''}${d.e?'<div class="br"><span>でなければ</span></div>'+slotH(b.id+':e',b.e||[]):''}</div>`}
+function mtRender(){$('#mtb').innerHTML=`<div class="mtl"><h3>全体変数</h3>${P.vars.map((v,i)=>`<div class="vr"><b>${esc(v.name)}</b>初期<input class="bi" data-vi="${i}" value="${esc(v.init)}"><i data-vd="${i}">✕</i></div>`).join('')}<div class="vr"><input class="bi" id="nv" placeholder="変数名" style="width:90px"><md-text-button id="addv">追加</md-text-button></div><h3>ブロック (クリックで選択中の枠へ追加)</h3>${Object.entries(BS).map(([k,d])=>`<div class="pb" data-cat="${CAT[k]}" data-ba="${k}">${d.nm}</div>`).join('')}<div style="font-size:11px;opacity:.7">文字欄で {変数名} で変数、{@部品id} で入力欄の値を使えます</div></div><div>${P.scripts.map(s=>`<div class="sc"><div class="sh">${sel2(KS,s.k,`data-sk="${s.id}"`)}${s.k=='start'?'':sel2(s.k=='enter'?optsOf('a'):nl(),s.n,`data-sn="${s.id}"`)}<i data-sd="${s.id}">スクリプト削除</i></div>${slotH(s.id+':root',s.b)}</div>`).join('')}<md-filled-tonal-button id="adds"><md-icon slot="icon">add</md-icon>スクリプトを追加</md-filled-tonal-button></div>`}
+function ins2(t){if(!P.scripts.length)P.scripts.push({id:'s'+P.seq++,k:'click',n:(nl()[0]||[''])[0],b:[]});let l=mt.slot&&slotList(mt.slot);if(!l){mt.slot=P.scripts[0].id+':root';l=P.scripts[0].b}const d=BS[t],a={};d.l.forEach(p=>{if(typeof p!='string'&&p[1]!='t')a[p[0]]=(optsOf(p[1])[0]||[''])[0]});const b={id:'b'+P.seq++,t,a};if(d.c)b.c=[];if(d.e)b.e=[];l.push(b)}
+$('#mtbtn').onclick=()=>{mtRender();$('#mt').show()};
+$('#mtb').addEventListener('click',e=>{const g=s=>e.target.closest(s);let r=1;
+ if(g('[data-ba]'))ins2(g('[data-ba]').dataset.ba);
+ else if(g('[data-bd]')){const b=bl(g('[data-b]').dataset.b),d=g('[data-bd]').dataset.bd;if(d=='del')b.l.splice(b.i,1);else{const j=b.i+(d=='up'?-1:1);if(j>=0&&j<b.l.length)[b.l[b.i],b.l[j]]=[b.l[j],b.l[b.i]]}}
+ else if(g('[data-vd]'))P.vars.splice(+g('[data-vd]').dataset.vd,1);
+ else if(g('#addv')){const v=$('#nv').value.trim();if(v&&!P.vars.some(x=>x.name==v))P.vars.push({name:v,init:'0'})}
+ else if(g('#adds'))P.scripts.push({id:'s'+P.seq++,k:'click',n:(nl()[0]||[''])[0],b:[]});
+ else if(g('[data-sd]'))P.scripts=P.scripts.filter(s=>s.id!=g('[data-sd]').dataset.sd);
+ else if(g('[data-slot]')&&!g('input,select'))mt.slot=g('[data-slot]').dataset.slot;else r=0;
+ if(r)mtRender()});
+$('#mtb').addEventListener('input',e=>{const t=e.target,d=t.dataset;if(d.f)bl(t.closest('[data-b]').dataset.b).b.a[d.f]=t.value;else if(d.vi!=null)P.vars[+d.vi].init=t.value});
+$('#mtb').addEventListener('change',e=>{const t=e.target,d=t.dataset;if(d.sk){const s=P.scripts.find(x=>x.id==d.sk);s.k=t.value;s.n=t.value=='start'?'':((t.value=='enter'?optsOf('a'):nl())[0]||[''])[0];mtRender()}else if(d.sn)P.scripts.find(x=>x.id==d.sn).n=t.value});
+$('#stage').addEventListener('click',e=>{const t=e.target.closest('[data-tab]');if(!t||mode!='design')return;e.stopPropagation();const[h,p]=t.dataset.tab.split(':'),H=loc(h)?.n;if(H){H.cur=H.kids.findIndex(x=>x.id==p);sel=p;all()}},true);
+all();
+</script>
+</body>
+</html>
