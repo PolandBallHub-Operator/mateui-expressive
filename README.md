@@ -1,13 +1,13 @@
 # Matecha 🧉 Expressive Web
 
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](#license)
-[![Version](https://img.shields.io/badge/Version-3.7.0-purple.svg)](#quick-start)
+[![Version](https://img.shields.io/badge/Version-3.8.0-purple.svg)](#quick-start)
 [![Design](https://img.shields.io/badge/Material%203-Expressive-6750A4.svg)](#features)
 [![API](https://img.shields.io/badge/API%20compatible-%40material%2Fweb%202.5.0-orange.svg)](#relationship-to-material-web-not-a-fork)
 [![Implementation](https://img.shields.io/badge/Implementation-From%20scratch-yellow.svg)](#relationship-to-material-web-not-a-fork)
 [![Dependencies](https://img.shields.io/badge/Dependencies-0-brightgreen.svg)](#features)
 [![Web Components](https://img.shields.io/badge/Web%20Components-Custom%20Elements-green.svg)](#components)
-[![Components](https://img.shields.io/badge/Components-82-blueviolet.svg)](#components)
+[![Components](https://img.shields.io/badge/Components-86-blueviolet.svg)](#components)
 [![Browsers](https://img.shields.io/badge/Browsers-Chrome%20111%2B%20%7C%20Safari%2016.4%2B%20%7C%20Firefox%20113%2B-lightgrey.svg)](#browser-support)
 
 **A from-scratch, drop-in replacement for Google's Material Web Components (MWC) — API-compatible, Material 3 Expressive.**
@@ -24,7 +24,7 @@ motion, in the Material 3 *Expressive* design language: spring motion, shape mor
 <!-- before -->
 <script type="module" src="https://cdn.jsdelivr.net/npm/@material/web/all.js"></script>
 <!-- after -->
-<script type="module" src="./matecha-3.7.0-all.js"></script>
+<script type="module" src="./matecha-3.8.0-all.js"></script>
 ```
 
 ---
@@ -54,14 +54,15 @@ interface, so that sites built for MWC v2.5.0 can switch with no markup changes.
 - **Token compatible**: `--md-sys-color-*` resolve to the MateUI palette (`--mate-*`) and fall back to a built-in M3
   scheme. Material Theme Builder output overrides them (tokens are declared with `:where()` — zero specificity).
 - **Dynamic colour built in**: HCT-based tonal / expressive / vibrant schemes from any seed colour (`MateCha`).
-- **38 additional components** that Material Web does not ship (navigation bar/drawer, snackbar, tooltip, card,
-  split button, FAB menu, toolbar, swipe item, switch bar, top popup, pull-to-refresh, search view, …).
+- **42 additional components** that Material Web does not ship (navigation bar/drawer, snackbar, tooltip, card,
+  split button, FAB menu, toolbar, swipe item, switch bar, top popup, pull-to-refresh, search view, time / date picker,
+  FAB toolbar, …).
 - Forms (`ElementInternals`), keyboard navigation, focus ring, ARIA and `prefers-reduced-motion` are supported.
 
 ## Quick start
 
 ```html
-<script type="module" src="./matecha-3.7.0-all.js"></script>
+<script type="module" src="./matecha-3.8.0-all.js"></script>
 
 <md-filled-button>Save</md-filled-button>
 <md-outlined-text-field label="Name" value="Matecha"></md-outlined-text-field>
@@ -90,6 +91,33 @@ Or use plain Material tokens — they keep working:
 | Global | Effect |
 | --- | --- |
 | `window.MATECHA_NO_FONTS = true` | Do not inject Google Fonts links (Material Symbols Rounded, Inter). Set it **before** loading the script. |
+
+## What's new in 3.8.0
+
+| Feature | Usage |
+| --- | --- |
+| FAB toolbar | `<md-fab-toolbar>` — a FAB that expands into a toolbar; `<md-toolbar-fab>` is the FAB used inside a toolbar |
+| Distributed toolbar | `<md-toolbar distribute>` — spreads the toolbar's items evenly |
+| Time picker | `<md-time-picker>` — 24 h dial, 12 h + AM/PM, keyboard input, mouse wheel |
+| Date picker | `<md-date-picker>` — calendar, year grid, text input; localised through `Intl` |
+| Classic segmented button | `<md-segmented-button-set variant="outlined">` — classic Material 3 segmented button |
+| Loading indicator refined | `md-loading-indicator`: 7 shapes, 667 ms per shape, ~139° rotation per shape with a fast – slow – fast curve and a short spring morph, measured from the Material reference animation |
+| Menu / select icon fix | A leading icon (`slot="start"`) in `md-menu-item` / `md-select-option` now sits beside the headline instead of above it |
+
+```html
+<md-time-picker></md-time-picker>
+<md-date-picker></md-date-picker>
+
+<md-toolbar distribute>…</md-toolbar>
+
+<md-segmented-button-set variant="outlined">
+  <md-segmented-button label="Day"></md-segmented-button>
+  <md-segmented-button label="Week" selected></md-segmented-button>
+  <md-segmented-button label="Month"></md-segmented-button>
+</md-segmented-button-set>
+```
+
+See [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## What's new in 3.7.0
 
@@ -174,18 +202,22 @@ See [`CHANGELOG.md`](./CHANGELOG.md).
 `md-navigation-bar`, `md-navigation-tab`, `md-navigation-drawer`, `md-navigation-drawer-item`,
 `md-navigation-drawer-header`, `md-navigation-drawer-divider`, `md-top-app-bar`, `md-snackbar`, `md-tooltip`,
 `md-card`, `md-badge`, `md-avatar`, `md-loading-indicator`, `md-toolbar`, `md-swipe-item`, `md-swipe-action`,
-`md-search-bar`, **(3.5.0)** `md-switch-bar`, `md-top-popup`, `md-pull-to-refresh`, `md-search-view`, **(3.6.0)** `md-navigation-rail`, `md-navigation-rail-item`.
+`md-search-bar`, **(3.5.0)** `md-switch-bar`, `md-top-popup`, `md-pull-to-refresh`, `md-search-view`,
+**(3.6.0)** `md-navigation-rail`, `md-navigation-rail-item`,
+**(3.7.0)** `md-toggle-button`, `md-bottom-sheet`, `md-carousel`, `md-carousel-item`, `md-bottom-app-bar`,
+`md-text-field-group`,
+**(3.8.0)** `md-fab-toolbar`, `md-toolbar-fab`, `md-time-picker`, `md-date-picker`.
 
 See [`SPECIFICATION.md`](./SPECIFICATION.md) for the full contract.
 
 ## Repository layout
 
 ```
-matecha-3.7.0-all.js          # complete bundle (part1 – part4)
-matecha-3_7_0-all_part1.js    # core, primitives, buttons, selection controls, slider
-matecha-3_7_0-all_part2.js    # progress … dialog, expressive additions, MateCha global
-matecha-3_7_0-all_part3.js    # 3.5–3.6: switch bar, top popup, pull-to-refresh, search view, navigation rail
-matecha-3_7_0-all_part4.js    # 3.7: toggle button, bottom app bar, bottom sheet, carousel, text field group
+matecha-3.8.0-all.js          # complete bundle (part1 – part4)
+matecha-3_8_0-all_part1.js    # core, primitives, buttons, selection controls, slider
+matecha-3_8_0-all_part2.js    # progress … dialog, expressive additions, MateCha global
+matecha-3_8_0-all_part3.js    # 3.5–3.6: switch bar, top popup, pull-to-refresh, search view, navigation rail
+matecha-3_8_0-all_part4.js    # 3.7–3.8: toggle button, bottom app bar, bottom sheet, carousel, text field group, FAB toolbar, time / date picker
 SPECIFICATION.md
 CHANGELOG.md
 NOTICE
@@ -195,7 +227,7 @@ LICENSE
 Rebuild the bundle:
 
 ```sh
-cat matecha-3_7_0-all_part1.js matecha-3_7_0-all_part2.js matecha-3_7_0-all_part3.js matecha-3_7_0-all_part4.js > matecha-3.7.0-all.js
+cat matecha-3_8_0-all_part1.js matecha-3_8_0-all_part2.js matecha-3_8_0-all_part3.js matecha-3_8_0-all_part4.js > matecha-3.8.0-all.js
 ```
 
 ## Differences from `@material/web`
