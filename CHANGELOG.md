@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.8.0
+
+### Added
+- `md-fab-toolbar` (FAB that expands into a toolbar) and `md-toolbar-fab`; `md-toolbar[distribute]`.
+- `md-time-picker` (24 h dial, 12 h + AM/PM, keyboard input, wheel) and `md-date-picker` (calendar, year grid, text input; `Intl` localisation).
+- `md-segmented-button-set[variant="outlined"]` (classic Material 3 segmented button).
+
+### Fixed
+- `md-menu-item` / `md-select-option`: a leading icon (`slot="start"`) was stacked above the headline instead of sitting beside it (the shared row layout was renamed by mistake).
+
+### Changed
+- `md-loading-indicator`: 7 shapes, 667 ms per shape, ~139° rotation per shape with a fast – slow – fast curve and a short spring morph, measured from the Material reference animation.
+
 ## 3.7.0
 
 ### Added
